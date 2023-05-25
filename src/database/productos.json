@@ -1,0 +1,125 @@
+[
+  {
+    "id": 8,
+    "code": "abc141",
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "status": true,
+    "stock": 25,
+    "category": "camisa",
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 9,
+    "code": "abc142",
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "status": true,
+    "stock": 25,
+    "category": "pantalon",
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 10,
+    "code": "abc143",
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "status": true,
+    "stock": 25,
+    "category": "camisa",
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 4,
+    "code": "abc127",
+    "title": "producto prueba modificacions",
+    "description": "Este es un producto prueba",
+    "price": 500,
+    "status": true,
+    "stock": 25,
+    "category": "pantalon",
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 11,
+    "code": "abc145",
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "status": true,
+    "stock": 250,
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 12,
+    "code": "abc148",
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "status": true,
+    "stock": 250,
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 13,
+    "code": "abc146",
+    "title": "producto prueba3",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "status": true,
+    "stock": 250,
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 14,
+    "code": "abc200",
+    "title": "producto prueba",
+    "categoria": "casaca",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "status": true,
+    "stock": 250,
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  },
+  {
+    "id": 7,
+    "code": "abc104",
+    "title": "produc modif jc-tab.oi-uirddd",
+    "categoría": "casaca",
+    "description": "Este es un producto pruebas",
+    "price": 200,
+    "status": true,
+    "stock": 250,
+    "thumbnail": [
+      "url1",
+      "url2"
+    ]
+  }
+]
