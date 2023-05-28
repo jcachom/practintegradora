@@ -24,14 +24,13 @@ class ProductManager {
         return !isNaN(value);
       case "stock":
         return !isNaN(value);
-       
-        case "status":
-          console.log(typeof value )
-        return (typeof value).toString() != "boolean"  ;
-       
 
-        case "category":
-          return value !== "";
+      case "status":
+        console.log(typeof value);
+        return (typeof value).toString() != "boolean";
+
+      case "category":
+        return value !== "";
       default:
         return false;
     }
@@ -44,8 +43,8 @@ class ProductManager {
       "description",
       "price",
       "stock",
- 
-      "category"
+
+      "category",
     ];
     const invalidFields = requiredFields.filter(
       (field) => !this.#validateField(field, product[field])

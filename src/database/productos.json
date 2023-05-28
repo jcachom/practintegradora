@@ -121,5 +121,16 @@
       "url1",
       "url2"
     ]
+  },
+  {
+    "id": 8,
+    "code": "a300",
+    "title": "Nuevos productos",
+    "categoria": "cascas",
+    "description": "nuevo",
+    "price": "200",
+    "status": true,
+    "stock": "400",
+    "thumbnail": []
   }
 ]

@@ -145,7 +145,6 @@ class cartManager {
   }
 
   async deleteProductFromCart(idCart, idProducto) {
-     
     let carritos = await fs.promises.readFile(`${this.url}`, "utf-8");
     let list_carritos = JSON.parse(carritos);
     let oCarrito = list_carritos.find((item) => item.id == idCart);

@@ -18,5 +18,7 @@ class ApiResponse {
 }
 
  
+let ___dirname = __dirname;
 
-module.exports.ApiResponse = ApiResponse
+//module.exports.ApiResponse = ApiResponse,___dirname
+module.exports  ={ ApiResponse,___dirname}
