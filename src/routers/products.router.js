@@ -1,6 +1,6 @@
 let { Router } = require("express");
 const router = Router();
-let productManager = require("../services/productManager");
+let productManager = require("../dao/mongodb/productdbManager");
 let oProducto = new productManager("./database/productos.json");
 
 const { ApiResponse } = require("../response");
@@ -40,6 +40,15 @@ router.post("/", async (req, res) => {
   try {
     let product = req.body;
     response = await oProducto.addProduct(product);
+
+    let sockemit = req.query.sockemit ?? "";
+
+    if (sockemit == "realtime") {
+      let listallproducts = await oProducto.getProducts();
+      req.socketServer.sockets.emit("ret_realtimeproducts", {
+        listProduct: listallproducts,
+      });
+    }
   } catch (error) {
     response = new ApiResponse("ERROR", error.message, null).response();
   }

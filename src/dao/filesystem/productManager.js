@@ -1,5 +1,5 @@
 let fs = require("fs");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../../response");
 
 class ProductManager {
   constructor(pathProducts) {

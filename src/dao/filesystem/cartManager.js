@@ -1,5 +1,5 @@
 let fs = require("fs");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../../response");
 
 let productManager = require("./productManager");
 let oProducto = new productManager("./database/productos.json");

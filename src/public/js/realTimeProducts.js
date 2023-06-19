@@ -41,7 +41,18 @@ btnadicionar.addEventListener("click", (evt) => {
     });
   }
   if (valid == "") {
-    sockets.emit("realtimeproducts", producto);
+    let url = "/api/products/?sockemit=realtime";
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(producto),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((result) => result.json())
+      .then((json) => {
+        console.log("new product");
+      });
+
+    //sockets.emit("realtimeproducts", producto);
 
     txtcodigo.value = "";
     txtdescripcion.value = "";

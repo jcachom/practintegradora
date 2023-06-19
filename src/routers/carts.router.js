@@ -1,7 +1,8 @@
 let { Router } = require("express");
 const router = Router();
 
-let cartManager = require("../services/cartManager");
+//let cartManager = require("../dao/filesystem/cartManager");
+let cartManager = require("../dao/mongodb/cartdbManager");
 
 const { ApiResponse } = require("../response");
 
@@ -16,6 +17,20 @@ router.post("/", async (req, res) => {
   }
   res.json(response);
 });
+
+router.put("/:cid", async (req, res) => {
+  let response ;
+  try {
+    let cid = req.params["cid"];
+    let listProduct = req.body;
+    response = await oCart.addProductCartMasivo(cid, listProduct);
+  } catch (error) {
+    response = new ApiResponse("ERROR", error.message, null).response();
+  }
+  res.json(response);
+});
+
+
 
 router.post("/:cid/product/:pid", async (req, res) => {
   let response;
