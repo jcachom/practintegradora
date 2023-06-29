@@ -1,4 +1,3 @@
-//let cartModel = require("../models/cart.model");
 let cartModel = require("../mongodb/models/cart.model");
 
 const { ApiResponse } = require("../../response");
@@ -110,7 +109,6 @@ class cartManager {
 
   async deleteProductFromCart(idCart, idProducto) {
     idProducto = new Number(idProducto);
-    let response = new estructMensaje().response;
 
     let oCarrito = await cartModel.findOne({ id: { $eq: idCart } });
 

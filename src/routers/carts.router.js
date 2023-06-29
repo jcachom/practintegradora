@@ -1,7 +1,6 @@
 let { Router } = require("express");
 const router = Router();
 
-//let cartManager = require("../dao/filesystem/cartManager");
 let cartManager = require("../dao/mongodb/cartdbManager");
 
 const { ApiResponse } = require("../response");
@@ -19,7 +18,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:cid", async (req, res) => {
-  let response ;
+  let response;
   try {
     let cid = req.params["cid"];
     let listProduct = req.body;
@@ -30,15 +29,28 @@ router.put("/:cid", async (req, res) => {
   res.json(response);
 });
 
-
-
 router.post("/:cid/product/:pid", async (req, res) => {
   let response;
   try {
     let cid = req.params["cid"];
     let pid = req.params["pid"];
-    //let quantity = new Number(req.params["quantity"]);
+
     let quantity = 1;
+    response = await oCart.addProductCart(cid, pid, quantity);
+  } catch (error) {
+    response = new ApiResponse("ERROR", error.message, null).response();
+  }
+  res.json(response);
+});
+
+router.put("/:cid/product/:pid", async (req, res) => {
+  let response;
+  try {
+    let cid = req.params["cid"];
+    let pid = req.params["pid"];
+    let { quantity } = req.body;
+    quantity = new Number(quantity);
+
     response = await oCart.addProductCart(cid, pid, quantity);
   } catch (error) {
     response = new ApiResponse("ERROR", error.message, null).response();

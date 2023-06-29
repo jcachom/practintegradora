@@ -66,6 +66,8 @@ app.use("/", viewsRouter);
 Vista de productos : http://localhost:8080/
 Vista realTime Productos : http://localhost:8080/realtimeproducts
 Vista chat : http://localhost:8080/messagechat
+Vista productos paginado : http://localhost:8080/products
+Vista productos por Cart: http://localhost:8080/carts/1
 
 GET:
 http://localhost:8080/api/products

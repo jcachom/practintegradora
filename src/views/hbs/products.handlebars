@@ -1,0 +1,69 @@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="css/index.css" />
+
+<div style="display:flex; flex-direction:row-reverse;align-items: center;">
+
+ 
+
+  <div>
+    {{#if rol}}
+      Rol:
+      {{rol}}
+    {{/if}}
+  </div>
+  <div>
+    &nbsp;
+  </div>
+
+  <div>
+    {{#if email}}
+      Bienvenido
+      <span style="font-weight:bold"> {{email}} </span>
+    {{/if}}
+  </div>
+
+</div>
+
+<h5> LISTADO DE PRODUCTOS </h5>
+<div id="divlist">
+
+  {{#if hasPrevPage}}
+    <a href="/products?page={{prevPage}}&&email={{email}}"><button>Anterior</button></a>
+  {{/if}}
+
+  {{#if hasNextPage}}
+    <a href="/products?page={{nextPage}}&&email={{email}}"><button>Siguiente</button></a>
+  {{/if}}
+  <br />
+  <br />
+
+  {{#each productos}}
+
+    <div class="tarjeta">
+      <span style="font-weight:bold"> code : {{this.code}}</span>
+      categoría :
+      {{this.categoria}}
+      <br />
+      descripción :
+      {{this.description}}
+      <br />
+      precio :
+      {{this.price}}
+      stock :
+      {{this.stock}}
+      <br />
+      <br />
+      <div style="display:inline">
+        Cantidad :
+        <input id="txtcantpedido" type="number" />
+        <button style="background-color:orange">Add carrito</button>
+
+      </div>
+    </div>
+    <br />
+
+  {{/each}}
+
+</div>
+<script src="/js/products.js"></script>

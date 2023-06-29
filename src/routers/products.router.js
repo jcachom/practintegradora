@@ -20,13 +20,15 @@ router.get("/:pid", async (req, res) => {
 router.get("/", async (req, res) => {
   let response;
   try {
-    let cantFilas = new Number(req.query.limit ?? 0);
+    let paramQuery = {
+      cantFilas: new Number(req.query.limit ?? 10),
+      page: new Number(req.query.page ?? 1),
+      query: req.query.query ?? "",
+      queryvalue: req.query.queryvalue ?? "",
+      sort: req.query.sort ?? "",
+    };
 
-    response = await oProducto.getProducts();
-
-    if (cantFilas > 0 && cantFilas <= response.length) {
-      response = response.slice(0, cantFilas);
-    }
+    response = await oProducto.getProducts_paginate(paramQuery);
   } catch (error) {
     response = new ApiResponse("ERROR", error.message, null).response();
   }

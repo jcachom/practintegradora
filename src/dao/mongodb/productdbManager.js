@@ -28,6 +28,41 @@ class productManager {
     return productos;
   }
 
+  async getProducts_paginate(paramQuery) {
+    let productos;
+
+    let { cantFilas, page, query, queryvalue, sort } = paramQuery;
+
+    let orden = {};
+
+    if (sort == "asc") orden = { price: 1 };
+    if (sort == "desc") orden = { price: -1 };
+
+    let queryc = {};
+    if (query != "" && queryvalue != "") {
+      if (query == "categoria") queryc = { categoria: queryvalue };
+      if (query == "disponibilidad") queryc = { status: queryvalue };
+    }
+
+    productos = await productosModel.paginate(queryc, {
+      limit: cantFilas,
+      page: page,
+      lean: true,
+      sort: orden,
+    });
+
+    return new ApiResponse("OK", "paginado", {
+      payload: productos.docs,
+      totalPages: productos.totalPages,
+      prevPage: productos.prevPage,
+      nextPage: productos.nextPage,
+      hasPrevPage: productos.hasPrevPage,
+      hasNextPage: productos.hasNextPage,
+      prevLink: productos.prevLink,
+      nextLink: productos.nextLink,
+    }).response();
+  }
+
   async getProductById(id) {
     let productos = await productosModel.find({ id: { $eq: id } });
     let list = productos.map((item) => item.toObject());
