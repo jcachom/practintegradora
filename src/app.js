@@ -1,5 +1,11 @@
 const PUERTO = 8080;
 const express = require("express");
+//const cookieParser=require("cookie-parser");
+const session = require("express-session");
+const sessionFileStore = require("session-file-store");
+const MongoStore = require("connect-mongo");
+
+
 
 const mongoose = require("mongoose");
 
@@ -42,6 +48,12 @@ const cartsRouter = require("./routers/carts.router");
 const chatRouter = require("./routers/chat.router");
 const viewsRouter = require("./routers/views.router");
 
+const cookiesRouter = require("./routers/cookies.router");
+const sessionRouter = require("./routers/session.router");
+
+const cookieParser = require("cookie-parser");
+const sessionfilestore = sessionFileStore(session);
+
 const httpServer = app.listen(PUERTO, () => {
   console.log(`Servidor arriba:http://localhost:${PUERTO}`);
 });
@@ -62,6 +74,24 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/chat", chatRouter);
 app.use("/", viewsRouter);
 
+app.use(cookieParser("codesecretl"));
+
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: MONGO_ATLAS_URI,
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 15,
+    }),
+    secret: "misecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use("/api/cookies", cookiesRouter);
+
+app.use("/api/sessions", sessionRouter);
 /*
 Vista de productos : http://localhost:8080/
 Vista realTime Productos : http://localhost:8080/realtimeproducts

@@ -37,6 +37,7 @@ router.get("/products", async (req, res, next) => {
     sort: req.query.sort ?? "",
   };
   let email = req.query.email ?? "";
+  let rol = req.query.rol ?? "";
 
   let rspta = await oProducto.getProducts_paginate(paramQuery);
   const { payload, hasPrevPage, hasNextPage, nextPage, prevPage } =
@@ -51,6 +52,7 @@ router.get("/products", async (req, res, next) => {
     nextPage,
     prevPage,
     email,
+    rol,
   });
 });
 
@@ -69,5 +71,21 @@ router.get("/carts/:cid", async (req, res, next) => {
 
   res.render("cartproducts", { cart: cid, productos: itemList });
 });
+
+
+
+router.get("/register", async (req, res, next) => {
+  res.render("register");
+});
+
+router.get("/login", async (req, res, next) => {
+  res.render("login");
+});
+
+
+router.get("/loginrecover", async (req, res, next) => {
+  res.render("loginrecover");
+});
+
 
 module.exports = router;

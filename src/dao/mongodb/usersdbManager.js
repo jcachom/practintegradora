@@ -1,4 +1,4 @@
-let usersModel = require("../models/user.model");
+let usersModel = require("../mongodb/models/user.model");
 
 class usersManager {
   constructor() {}
