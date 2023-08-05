@@ -10,6 +10,11 @@ const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
 
 const handlebars = require("express-handlebars");
+
+const passport=require("passport");
+//const initializePassport=require("./config/passport.config")
+const initializePassportGitHub=require("./config/passport.config_github")
+
 const { Server } = require("socket.io");
 let { ___dirname } = require("./response");
 const path = require("path");
@@ -76,6 +81,8 @@ app.use("/", viewsRouter);
 
 app.use(cookieParser("codesecretl"));
 
+initializePassportGitHub();
+
 app.use(
   session({
     store: MongoStore.create({
@@ -90,14 +97,23 @@ app.use(
 );
 
 app.use("/api/cookies", cookiesRouter);
-
 app.use("/api/sessions", sessionRouter);
+
+
+app.use(passport.initialize());
+//app.use(passport.session());
+
 /*
 Vista de productos : http://localhost:8080/
 Vista realTime Productos : http://localhost:8080/realtimeproducts
 Vista chat : http://localhost:8080/messagechat
 Vista productos paginado : http://localhost:8080/products
 Vista productos por Cart: http://localhost:8080/carts/1
+
+login: http://localhost:8080/login
+
+ 
+
 
 GET:
 http://localhost:8080/api/products

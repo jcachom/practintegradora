@@ -1,9 +1,12 @@
 let { Router } = require("express");
+const passport = require("passport");
 const userModel = require("../dao/mongodb/models/user.model");
  
 const router = Router();
 const {createHash,isValidPassword}  =require("../response");
 
+
+ 
 router.post("/register", async (req, res) => {
   try {
     const { first_name, last_name, email, age, password } = req.body;
@@ -13,9 +16,6 @@ router.post("/register", async (req, res) => {
     const exists = await userModel.findOne({ email });
     if (exists)
       return res.send({ status: "error", message: "Usuario ya existe." });
- 
-   
-
     const result = await userModel.create({
       first_name,
       last_name,
@@ -28,8 +28,17 @@ router.post("/register", async (req, res) => {
     res.send({ status: "error", message: error, payload: [] });
   }
 });
+ 
 
+/*
+router.post("/register", passport.authenticate('register',{failureRedirect:'/failregister'}), async (req, res) => {
+  res.send({ status: "succes", message: "Usuario registrado.", payload: [] });
+});
 
+router.post("/failregister", async (req, res) => {
+  res.send({ status: "error", message: "Error estrategia autenticacion", payload: [] });
+})
+*/
 
 router.post("/loginrecover", async (req, res) => {
   try {
@@ -54,7 +63,7 @@ router.post("/loginrecover", async (req, res) => {
 });
 
 
-
+ 
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -91,6 +100,40 @@ router.post("/login", async (req, res) => {
     res.send({ status: "error", message: error, user: "" });
   }
 });
+
+ 
+
+
+/*
+router.post("/login",passport.authenticate('login',{failureRedirect:'/faillogin'}),async(req,res)=>{
+  if(!req.user) return      res.send({ status: "error", message: "Valores incompletos." });
+req.session.user={
+  first_name:req.user.first_name,
+  last_name:req.user.last_name,
+  age: req.user.age,
+  email:req.user.email
+}
+req.session.user.rol = "usuario"
+if (req.user.email == "adminCoder@coder.com")   req.session.user.rol = "admin"
+  
+res.send({ status: "succes", message: "logueado", user: req.session.user });
+})
+
+router.get("/faillogin",(req,res)=>{
+  res.send({ status: "error", message: "Valores incompletos." });
+})
+*/
+
+
+router.get("/github",passport.authenticate('github',{scope:['user:email']}),async(req,res)=>{
+})
+
+router.get("/githubcallback",passport.authenticate('github',{failureRedirect:'/login'}),async(req,res)=>{
+  console.log("exito")
+  req.session.user=req.user ;
+  res.redirect("/") 
+})
+
 
 router.get("/session", (req, res) => {
   try {
