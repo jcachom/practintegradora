@@ -2,7 +2,6 @@ let { Router } = require("express");
 const router = Router();
 
 let userManager = require("../dao/mongodb/usersdbManager");
- 
 
 let ouserManager = new userManager();
 
@@ -17,9 +16,9 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { first_name, last_name, email, birthDate, gender } = req.body;
+    const { first_name, last_name, email, birthDate, gender, role } = req.body;
 
-    if (!first_name || !last_name || !email)
+    if (!first_name || !last_name || !email || !role)
       res.send({ status: "error", error: "Incomplete valores" });
 
     let newUser = {
@@ -28,6 +27,7 @@ router.post("/", async (req, res) => {
       email,
       birthDate,
       gender,
+      role,
     };
     let result = await ouserManager.saveUser(newUser);
     res.send({ status: "success", payload: result });

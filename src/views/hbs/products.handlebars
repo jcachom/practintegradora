@@ -4,9 +4,7 @@
 
 <div style="display:flex; flex-direction:row-reverse;align-items: center;">
 
- 
-
-    <div>
+  <div>
     <form method="post">
 
       <button
@@ -42,16 +40,17 @@
 
 </div>
 
-
 <h5> LISTADO DE PRODUCTOS </h5>
 <div id="divlist">
 
   {{#if hasPrevPage}}
-    <a href="/products?page={{prevPage}}&&email={{email}}"><button>Anterior</button></a>
+    <a href="/products?page={{prevPage}}&&email={{email}}"><button
+      >Anterior</button></a>
   {{/if}}
 
   {{#if hasNextPage}}
-    <a href="/products?page={{nextPage}}&&email={{email}}"><button>Siguiente</button></a>
+    <a href="/products?page={{nextPage}}&&email={{email}}"><button
+      >Siguiente</button></a>
   {{/if}}
   <br />
   <br />

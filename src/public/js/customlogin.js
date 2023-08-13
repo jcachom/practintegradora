@@ -7,7 +7,7 @@ const textemail = document.getElementById("email");
 const textpassword = document.getElementById("password");
 
 btnIngresar.addEventListener("click", (evt) => {
-  texterror.innerHTML = "Validando autenticación.";
+  texterror.innerHTML = "Iniciando.";
 
   const data = new FormData(form);
   const obj = {
@@ -15,24 +15,22 @@ btnIngresar.addEventListener("click", (evt) => {
     password: textpassword.value,
   };
 
-  fetch("/api/sessions/login", {
+  fetch("/api/sessionscustom/login", {
     method: "POST",
     body: JSON.stringify(obj),
     headers: { "Content-type": "application/json" },
   })
     .then((result) => result.json())
     .then((json) => {
-      if (json.status == "success") {
+      if (json.status == "succes") {
         console.log(json.user);
         location.href =
           "http://localhost:8080/products?email=" +
-          json.email +
+          json.user.email +
           "&rol=" +
-          json.role;
+          json.user.rol;
       } else {
         texterror.innerHTML = json.message;
       }
     });
 });
-
- 

@@ -1,0 +1,43 @@
+<div id="contenedor">
+
+  <div id="login">
+
+    <div class="titulos">
+      Json Web Token
+    </div>
+
+    <form id="loginform">
+
+      <input
+        name="email"
+        id="email"
+        value="jcachom@hotmail.com"
+        placeholder="Correo"
+      />
+
+      <input
+        type="password"
+        name="password"
+        value="1234"
+        id="password"
+        placeholder="Contraseña"
+      /><br />
+
+      <button type="button" id="btngenerarjwt" name="btngenerarjwt">Generar
+        JWT/session</button>
+      <button type="button" id="btnIngresar" name="btnIngresar">Ingresar con JWT</button>
+      <button type="button" id="btnPrintCookie" name="btnPrintCookie">Generar
+        JWT/cookie</button>
+
+      <p
+        id="texterror"
+        style="color:orange;font: size 20px ;font-weight:bold"
+      ></p>
+
+    </form>
+
+  </div>
+
+</div>
+
+<script src="./js/jsonwebtoken.js"></script>

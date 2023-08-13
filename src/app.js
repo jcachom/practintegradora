@@ -1,19 +1,19 @@
 const PUERTO = 8080;
 const express = require("express");
-//const cookieParser=require("cookie-parser");
+
 const session = require("express-session");
 const sessionFileStore = require("session-file-store");
 const MongoStore = require("connect-mongo");
-
-
+const passport = require("passport");
+const cookieParser = require("cookie-parser");
 
 const mongoose = require("mongoose");
 
 const handlebars = require("express-handlebars");
 
-const passport=require("passport");
-//const initializePassport=require("./config/passport.config")
-const initializePassportGitHub=require("./config/passport.config_github")
+const initializePassportGitHub = require("./passport/github.passport");
+const initializePassportJWT = require("./passport/jwt.passport");
+const initializePassportLocal = require("./passport/local.passport");
 
 const { Server } = require("socket.io");
 let { ___dirname } = require("./response");
@@ -54,10 +54,20 @@ const chatRouter = require("./routers/chat.router");
 const viewsRouter = require("./routers/views.router");
 
 const cookiesRouter = require("./routers/cookies.router");
+const sessioncustomRouter = require("./routers/sessioncustom.router");
 const sessionRouter = require("./routers/session.router");
+const sessionLocalPassportRouter = require("./routers/localpassport.router");
 
-const cookieParser = require("cookie-parser");
-const sessionfilestore = sessionFileStore(session);
+const sessionjsonwebtoken = require("./routers/jsonwebtoken.router");
+
+//const sessionfilestore = sessionFileStore(session);
+
+app.use(cookieParser("codesecretl"));
+
+initializePassportJWT();
+initializePassportGitHub();
+initializePassportLocal();
+app.use(passport.initialize());
 
 const httpServer = app.listen(PUERTO, () => {
   console.log(`Servidor arriba:http://localhost:${PUERTO}`);
@@ -77,11 +87,8 @@ app.use((req, res, next) => {
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", chatRouter);
+
 app.use("/", viewsRouter);
-
-app.use(cookieParser("codesecretl"));
-
-initializePassportGitHub();
 
 app.use(
   session({
@@ -97,11 +104,10 @@ app.use(
 );
 
 app.use("/api/cookies", cookiesRouter);
+app.use("/api/sessionscustom", sessioncustomRouter);
 app.use("/api/sessions", sessionRouter);
-
-
-app.use(passport.initialize());
-//app.use(passport.session());
+app.use("/api/sessionslocalpassport", sessionLocalPassportRouter);
+app.use("/api/jwt", sessionjsonwebtoken);
 
 /*
 Vista de productos : http://localhost:8080/

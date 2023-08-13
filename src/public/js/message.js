@@ -22,7 +22,7 @@ const btnEnviar = document.getElementById("btnEnviar");
 
 btnEnviar.addEventListener("click", (evt) => {
   let bodyMessage = {
-    email: user,  
+    email: user,
     message: txtmessage.value,
   };
 
@@ -42,17 +42,16 @@ btnEnviar.addEventListener("click", (evt) => {
   if (mensaje == "") {
     //sockets.emit("messagechatrealtime", bodyMessage);
 
-    let url="/api/chat/?sockemit=chat";
+    let url = "/api/chat/?sockemit=chat";
     fetch(url, {
       method: "POST",
-      body:JSON.stringify(bodyMessage),
+      body: JSON.stringify(bodyMessage),
       headers: { "Content-type": "application/json" },
     })
       .then((result) => result.json())
       .then((json) => {
-        console.log("new chat")   
+        console.log("new chat");
       });
-
 
     txtmessage.value = "";
   }

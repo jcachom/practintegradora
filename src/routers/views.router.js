@@ -72,20 +72,38 @@ router.get("/carts/:cid", async (req, res, next) => {
   res.render("cartproducts", { cart: cid, productos: itemList });
 });
 
+router.get("/customlogin", async (req, res, next) => {
+  res.render("customlogin");
+});
+router.get("/customregister", async (req, res, next) => {
+  res.render("customregister");
+});
+router.get("/customloginrecover", async (req, res, next) => {
+  res.render("customloginrecover");
+});
 
+router.get("/localpassportlogin", async (req, res, next) => {
+  res.render("localpassportlogin");
+});
+router.get("/localpassportregister", async (req, res, next) => {
+  res.render("localpassportregister");
+});
+router.get("/localpassportloginrecover", async (req, res, next) => {
+  res.render("localpassportloginrecover");
+});
+
+router.get("/jwtlogin", async (req, res, next) => {
+  res.render("jsonwebtokenlogin");
+});
 
 router.get("/register", async (req, res, next) => {
   res.render("register");
 });
-
 router.get("/login", async (req, res, next) => {
   res.render("login");
 });
-
-
 router.get("/loginrecover", async (req, res, next) => {
   res.render("loginrecover");
 });
-
 
 module.exports = router;

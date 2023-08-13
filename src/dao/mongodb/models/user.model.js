@@ -26,6 +26,10 @@ const modelSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  role: {
+    type: String,
+    require: true,
+  },
 });
 modelSchema.plugin(mongoosePaginate);
 const userModel = mongoose.model(modelCollection, modelSchema);

@@ -1,5 +1,3 @@
- 
-
 document.querySelector("#logout").addEventListener("click", () => {
   try {
     const data = new FormData();

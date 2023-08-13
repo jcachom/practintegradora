@@ -7,7 +7,7 @@ form.addEventListener("submit", (evt) => {
   const obj = {};
 
   data.forEach((value, key) => (obj[key] = value));
-  fetch("/api/sessions/loginrecover", {
+  fetch("/api/sessionslocalpassport/login", {
     method: "POST",
     body: JSON.stringify(obj),
     headers: { "Content-type": "application/json" },
@@ -17,7 +17,11 @@ form.addEventListener("submit", (evt) => {
     .then((json) => {
       if (json.status == "succes") {
         console.log(json.user);
-        texterror.innerHTML = "contraseña modificada.";
+        location.href =
+          "http://localhost:8080/products?email=" +
+          json.user.email +
+          "&rol=" +
+          json.user.rol;
       } else {
         texterror.innerHTML = json.message;
       }
