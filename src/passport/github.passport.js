@@ -23,10 +23,10 @@ const initializePassportGitHub = () => {
           const newUser = {
             first_name: profile._json.login,
             last_name: "testLasname",
-
             email: profile._json.login,
             age: 0,
             password: "",
+            role : "user"
           };
           const result = await userModel.create(newUser);
 
