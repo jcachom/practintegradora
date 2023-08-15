@@ -103,20 +103,25 @@ app.use(
   })
 );
 
+app.use("/api/sessions", sessionRouter);
+/*
 app.use("/api/cookies", cookiesRouter);
 app.use("/api/sessionscustom", sessioncustomRouter);
-app.use("/api/sessions", sessionRouter);
 app.use("/api/sessionslocalpassport", sessionLocalPassportRouter);
 app.use("/api/jwt", sessionjsonwebtoken);
+*/
 
 /*
+
+login: http://localhost:8080/login
+
 Vista de productos : http://localhost:8080/
 Vista realTime Productos : http://localhost:8080/realtimeproducts
 Vista chat : http://localhost:8080/messagechat
 Vista productos paginado : http://localhost:8080/products
 Vista productos por Cart: http://localhost:8080/carts/1
 
-login: http://localhost:8080/login
+
 
  
 

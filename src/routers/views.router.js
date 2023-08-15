@@ -72,6 +72,7 @@ router.get("/carts/:cid", async (req, res, next) => {
   res.render("cartproducts", { cart: cid, productos: itemList });
 });
 
+/*
 router.get("/customlogin", async (req, res, next) => {
   res.render("customlogin");
 });
@@ -95,6 +96,8 @@ router.get("/localpassportloginrecover", async (req, res, next) => {
 router.get("/jwtlogin", async (req, res, next) => {
   res.render("jsonwebtokenlogin");
 });
+
+*/
 
 router.get("/register", async (req, res, next) => {
   res.render("register");
