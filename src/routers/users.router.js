@@ -58,5 +58,4 @@ router.delete("/:uid", async (req, res) => {
   res.send(response);
 });
 
-  
 module.exports = router;

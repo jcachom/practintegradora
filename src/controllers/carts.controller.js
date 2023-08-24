@@ -1,9 +1,8 @@
 let CartService = require("../services/carts.service");
 
-
 class cartController {
   constructor() {
-     this.cartService = new CartService();
+    this.cartService = new CartService();
   }
 
   async createCart() {
@@ -12,12 +11,19 @@ class cartController {
   }
 
   async addProductCartMasivo(idCart, listProduct) {
-    let result = await this.cartService.addProductCartMasivo(idCart, listProduct);
+    let result = await this.cartService.addProductCartMasivo(
+      idCart,
+      listProduct
+    );
     return result;
   }
 
   async addProductCart(idCart, idProduct, quantity) {
-    let result = await this.cartService.addProductCart(idCart, idProduct, quantity);
+    let result = await this.cartService.addProductCart(
+      idCart,
+      idProduct,
+      quantity
+    );
     return result;
   }
 
@@ -37,7 +43,10 @@ class cartController {
   }
 
   async deleteProductFromCart(idCart, idProducto) {
-    let result = await this.cartService.deleteProductFromCart(idCart, idProducto);
+    let result = await this.cartService.deleteProductFromCart(
+      idCart,
+      idProducto
+    );
     return result;
   }
 }

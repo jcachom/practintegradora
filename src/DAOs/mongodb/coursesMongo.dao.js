@@ -22,7 +22,7 @@ class coursesDAO {
     let result = await coursesModel.deleteOne({ _id: uid });
     return result;
 
-    //   let result = await userModel.updateOne({ _id: uid }, userToReplace);
+ 
   };
 
 

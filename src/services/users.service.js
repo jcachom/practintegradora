@@ -13,10 +13,9 @@ class usersService {
   };
 
   getbyEmail = async (email) => {
-    let result = await this.usersDAO.getbyEmail(email)
+    let result = await this.usersDAO.getbyEmail(email);
     return result;
   };
-
 
   saveUser = async (user) => {
     let result = await this.usersDAO.saveUser(user);

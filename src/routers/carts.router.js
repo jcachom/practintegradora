@@ -1,8 +1,7 @@
 let { Router } = require("express");
 const router = Router();
 
- 
-let CartController= require("../controllers/carts.controller");
+let CartController = require("../controllers/carts.controller");
 const { ApiResponse } = require("../response");
 
 const cartController = new CartController();

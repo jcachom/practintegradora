@@ -13,10 +13,9 @@ class userController {
   };
 
   getbyEmail = async (email) => {
-    let result = await this.userService.getbyEmail(email)
+    let result = await this.userService.getbyEmail(email);
     return result;
   };
-
 
   saveUser = async (user) => {
     if (!user.first_name || !user.last_name || !user.email || !user.role)

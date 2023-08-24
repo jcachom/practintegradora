@@ -9,11 +9,7 @@ class usersDAO {
   };
 
   getbyEmail = async (email) => {
-    //let result = await usersModel.find({ email }).lean();
-    //{ id: { $eq: id } }
-    let result = await usersModel.findOne({email}).lean();
-  
- 
+    let result = await usersModel.findOne({ email }).lean();
 
     return result;
   };

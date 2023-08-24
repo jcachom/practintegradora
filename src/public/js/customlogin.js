@@ -8,8 +8,7 @@ const textpassword = document.getElementById("password");
 
 btnIngresar.addEventListener("click", (evt) => {
   texterror.innerHTML = "Iniciando.";
-
-  //const data = new FormData(form);
+ 
   const obj = {
     email: textemail.value,
     password: textpassword.value,

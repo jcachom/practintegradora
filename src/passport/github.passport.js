@@ -2,8 +2,8 @@ const passport = require("passport");
 const githubStrategy = require("passport-github2");
 
 const UserController = require("../controllers/users.controller");
-//const userModel = require("../DAOs/mongodb/models/user.model");
-const userController =new UserController();
+
+const userController = new UserController();
 
 const initializePassportGitHub = () => {
   passport.use(
@@ -18,8 +18,8 @@ const initializePassportGitHub = () => {
         console.log(profile);
         try {
           // let user = await userModel.findOne({ email: profile._json.email });
-         // let user = await userModel.findOne({ email: profile._json.login });
-         let user =await userController.getbyEmail(profile._json.login);
+          // let user = await userModel.findOne({ email: profile._json.login });
+          let user = await userController.getbyEmail(profile._json.login);
           // if (user) return done(null, false);
           if (user) return done(null, user);
 
@@ -29,10 +29,10 @@ const initializePassportGitHub = () => {
             email: profile._json.login,
             age: 0,
             password: "",
-            role : "user"
+            role: "user",
           };
-         // const result = await userModel.create(newUser);
-         const result = await userController.saveUser(newUser)
+
+          const result = await userController.saveUser(newUser);
 
           return done(null, result);
         } catch (error) {

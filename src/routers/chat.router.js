@@ -1,11 +1,10 @@
 let { Router } = require("express");
 const router = Router();
- 
+
 const { ApiResponse } = require("../response");
 let ChatController = require("../controllers/messages.controller");
 let chatController = new ChatController();
 
- 
 router.get("/", async (req, res) => {
   let response;
   try {

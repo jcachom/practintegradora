@@ -11,8 +11,6 @@ const textpassword = document.getElementById("password");
 btngenerarjwt.addEventListener("click", (evt) => {
   texterror.innerHTML = "Iniciando.";
 
- 
-
   if (textemail.value == "" || textpassword.value == "") {
     texterror.innerHTML = "Completar campos.";
     return;
@@ -56,10 +54,6 @@ btnIngresar.addEventListener("click", (evt) => {
 btnPrintCookie.addEventListener("click", (evt) => {
   texterror.innerHTML = "";
 
-  /*
-  const obj = {"email":"jcachom@hotmail.com",
-  "password": "1234" };
-  */
   if (textemail.value == "" || textpassword.value == "") {
     texterror.innerHTML = "Completar campos.";
     return;
