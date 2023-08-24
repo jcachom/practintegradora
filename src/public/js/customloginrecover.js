@@ -15,11 +15,12 @@ form.addEventListener("submit", (evt) => {
     .then((result) => result.json())
 
     .then((json) => {
-      if (json.status == "succes") {
-        console.log(json.user);
+      if (json.status == "OK") {
+        let user=json.payload;
+        console.log( user);
         texterror.innerHTML = "contraseña modificada.";
       } else {
-        texterror.innerHTML = json.message;
+        texterror.innerHTML = json.msg;
       }
     });
 });

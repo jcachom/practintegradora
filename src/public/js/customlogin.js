@@ -9,7 +9,7 @@ const textpassword = document.getElementById("password");
 btnIngresar.addEventListener("click", (evt) => {
   texterror.innerHTML = "Iniciando.";
 
-  const data = new FormData(form);
+  //const data = new FormData(form);
   const obj = {
     email: textemail.value,
     password: textpassword.value,
@@ -22,15 +22,16 @@ btnIngresar.addEventListener("click", (evt) => {
   })
     .then((result) => result.json())
     .then((json) => {
-      if (json.status == "succes") {
-        console.log(json.user);
+      if (json.status == "OK") {
+        let user=json.payload;
+        console.log(user);
         location.href =
           "http://localhost:8080/products?email=" +
-          json.user.email +
+           user.email +
           "&rol=" +
-          json.user.rol;
+           user.role;
       } else {
-        texterror.innerHTML = json.message;
+        texterror.innerHTML = json.msg;
       }
     });
 });

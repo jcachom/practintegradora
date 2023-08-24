@@ -13,6 +13,11 @@ form.addEventListener("submit", (evt) => {
   })
     .then((result) => result.json())
     .then((json) => {
-      texterror.innerHTML = json.message;
+      if (json.status=="OK") 
+      { texterror.innerHTML = json.msg;
+      }
+      else { 
+      texterror.innerHTML = json.msg;
+    }
     });
 });

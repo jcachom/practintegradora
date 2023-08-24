@@ -1,19 +1,23 @@
 const PUERTO = 8080;
+
+const ConnectionMongo = require(".//connection/connectionMongo");
+ 
+
 const express = require("express");
 
 const session = require("express-session");
-const sessionFileStore = require("session-file-store");
+// des const sessionFileStore = require("session-file-store");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 
 const handlebars = require("express-handlebars");
 
-const initializePassportGitHub = require("./passport/github.passport");
-const initializePassportJWT = require("./passport/jwt.passport");
-const initializePassportLocal = require("./passport/local.passport");
+ const initializePassportGitHub = require("./passport/github.passport");
+ const initializePassportJWT = require("./passport/jwt.passport");
+ const initializePassportLocal = require("./passport/local.passport");
 
 const { Server } = require("socket.io");
 let { ___dirname } = require("./response");
@@ -33,6 +37,9 @@ app.use(express.static(___dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+const  connectionMongoInstance=ConnectionMongo.getInstance();
+/*
 let connection;
 (async () => {
   try {
@@ -47,27 +54,31 @@ let connection;
     console.log(error);
   }
 })();
-
+*/
+ 
+const usersRouter = require("./routers/users.router");
 const productsRouter = require("./routers/products.router");
+const coursesRouter = require("./routers/courses.router");
+
 const cartsRouter = require("./routers/carts.router");
 const chatRouter = require("./routers/chat.router");
 const viewsRouter = require("./routers/views.router");
 
-const cookiesRouter = require("./routers/cookies.router");
-const sessioncustomRouter = require("./routers/sessioncustom.router");
-const sessionRouter = require("./routers/session.router");
-const sessionLocalPassportRouter = require("./routers/localpassport.router");
-
-const sessionjsonwebtoken = require("./routers/jsonwebtoken.router");
+ const cookiesRouter = require("./routers/cookies.router");
+ const sessioncustomRouter = require("./routers/sessioncustom.router");
+ const sessionRouter = require("./routers/session.router");
+ const sessionLocalPassportRouter = require("./routers/localpassport.router");
+ const sessionjsonwebtoken = require("./routers/jsonwebtoken.router");
 
 //const sessionfilestore = sessionFileStore(session);
 
 app.use(cookieParser("codesecretl"));
 
-initializePassportJWT();
-initializePassportGitHub();
-initializePassportLocal();
-app.use(passport.initialize());
+ initializePassportJWT();
+ initializePassportGitHub();
+ initializePassportLocal();
+ 
+ app.use(passport.initialize());
 
 const httpServer = app.listen(PUERTO, () => {
   console.log(`Servidor arriba:http://localhost:${PUERTO}`);
@@ -84,10 +95,12 @@ app.use((req, res, next) => {
   next();
 });
 
+
+app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/courses", coursesRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", chatRouter);
-
 app.use("/", viewsRouter);
 
 app.use(
@@ -104,12 +117,11 @@ app.use(
 );
 
 app.use("/api/sessions", sessionRouter);
-/*
 app.use("/api/cookies", cookiesRouter);
 app.use("/api/sessionscustom", sessioncustomRouter);
 app.use("/api/sessionslocalpassport", sessionLocalPassportRouter);
 app.use("/api/jwt", sessionjsonwebtoken);
-*/
+ 
 
 /*
 

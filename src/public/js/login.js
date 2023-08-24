@@ -22,15 +22,16 @@ btnIngresar.addEventListener("click", (evt) => {
   })
     .then((result) => result.json())
     .then((json) => {
-      if (json.status == "success") {
-        console.log(json.user);
+      if (json.status == "OK") {
+        let user=json.payload;
+        console.log( user);
         location.href =
           "http://localhost:8080/products?email=" +
-          json.email +
+          user.email +
           "&rol=" +
-          json.role;
+          user.role;
       } else {
-        texterror.innerHTML = json.message;
+        texterror.innerHTML = json.msg;
       }
     });
 });

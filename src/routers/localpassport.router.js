@@ -1,75 +1,62 @@
 let { Router } = require("express");
 const passport = require("passport");
-const userModel = require("../dao/mongodb/models/user.model");
- 
+const { ApiResponse } = require("../response");
+ const AutenticacionController =require("../controllers/autenticacion.controller")
+ const authController=new AutenticacionController()
 
 const router = Router();
-const { createHash, isValidPassword } = require("../response");
+//const { createHash, isValidPassword } = require("../response");
 
 router.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "/failregister" }),
   async (req, res) => {
-    res.send({ status: "succes", message: "Usuario registrado.", payload: [] });
+    //res.send({ status: "succes", message: "Usuario registrado.", payload: [] });
+    res.send(new ApiResponse("OK", "Usuario registrado.", null).response())
   }
 );
 
 router.post("/failregister", async (req, res) => {
-  res.send({
-    status: "error",
-    message: "Error estrategia autenticacion",
-    payload: [],
-  });
+ // res.send({status: "error", message: "Error estrategia autenticacion",payload: [],});
+ res.send(new ApiResponse("ERROR", "Error estrategia autenticacion", null).response())
 });
 
 router.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "/faillogin" }),
   async (req, res) => {
-    if (!req.user)
-      return res.send({ status: "error", message: "Valores incompletos." });
 
-    req.session.user = {
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      age: req.user.age,
-      email: req.user.email,
-    };
-    req.session.user.rol = "usuario";
-    if (req.user.email == "adminCoder@coder.com")
-      req.session.user.rol = "admin";
+     
+  
 
-    res.send({ status: "succes", message: "logueado", user: req.session.user });
+  //if (response.status=="succes")
+  let response =authController.login(req.user);
+  if (response.status=="OK")
+  req.session.user=response.user
+
+  res.send(response);
+
+ 
   }
 );
 
 router.get("/faillogin", (req, res) => {
-  res.send({ status: "error", message: "Falló login." });
+  res.send( new ApiResponse("ERROR", "Falló login.", null).response())
+ // res.send({ status: "error", message: "Falló login." });
 });
 
-/*
-router.get("/current",passport.authenticate('jwt',{session:false}) , (req, res) => {
-  res.send(req.user);
-})
-*/
+
 
 router.post("/loginrecover", async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password)
-      return res.send({ status: "error", message: "Valores incompletos" });
-
-    const user = await userModel.findOne({ email });
-    if (!user)
-      return res.send({ status: "error", message: "Usuario no existe." });
-
-    user.password = createHash(password);
-
-    let result = await userModel.updateOne({ email }, user);
-
-    res.send({ status: "succes", message: "recuperado", payload: result });
+    let response = authController.loginrecover(email,password);
+    res.send(response)
+ 
   } catch (error) {
-    res.send({ status: "error", message: error, payload: [] });
+   // response= new ApiResponse("ERROR", error.message, null).response();
+    res.send(new ApiResponse("ERROR", error.message, null).response())
+  //  res.send({ status: "error", message: error, payload: [] });
   }
 });
 
@@ -90,12 +77,79 @@ router.get("/session", (req, res) => {
 router.post("/logout", (req, res) => {
   try {
     req.session.destroy((err) => {
-      if (!err) res.send({ status: "succes", message: "" });
-      else res.send({ status: "error", message: err });
+      //if (!err) res.send({ status: "succes", message: "" });
+      if (!err) res.send( new ApiResponse("OK", "", null).response());
+      else res.send( new ApiResponse("ERROR", err, null).response())
+     // else res.send({ status: "error", message: err });
     });
   } catch (error) {
-    res.send({ status: "error", message: error });
+    //response= new ApiResponse("ERROR", error.message, null).response();
+    res.send(new ApiResponse("ERROR", error.message, null).response())
+   // res.send({ status: "error", message: error });
   }
 });
 
+
+
+
+
 module.exports = router;
+
+
+
+/*
+router.post("/loginrecover", async (req, res) => {
+  try {
+ 
+    
+  
+    if (!email || !password)
+      return res.send({ status: "error", message: "Valores incompletos" });
+
+    const user = await userModel.findOne({ email });
+    if (!user)
+      return res.send({ status: "error", message: "Usuario no existe." });
+
+    user.password = createHash(password);
+
+    let result = await userModel.updateOne({ email }, user);
+
+    res.send({ status: "succes", message: "recuperado", payload: result });
+
+ 
+  } catch (error) {
+    res.send({ status: "error", message: error, payload: [] });
+  }
+});
+
+
+router.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "/faillogin" }),
+  async (req, res) => {
+
+ 
+    
+  if (!req.user)
+      return res.send({ status: "error", message: "Usuario no auntenticado." });
+
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      age: req.user.age,
+      email: req.user.email,
+    };
+    req.session.user.rol = "usuario";
+    if (req.user.email == "adminCoder@coder.com")
+      req.session.user.rol = "admin";
+
+    res.send({ status: "succes", message: "logueado", user: req.session.user }); 
+  }
+  );
+
+  
+
+router.get("/current",passport.authenticate('jwt',{session:false}) , (req, res) => {
+  res.send(req.user);
+})
+*/

@@ -1,12 +1,10 @@
-const dotenv=require("dotenv")
+const dotenv = require("dotenv");
 
 dotenv.config();
 
+let config = {
+  PERSISTENCIA: process.env.PERSISTENCIA,
+  MONGO_ATLAS_URI: process.env.MONGO_ATLAS_URI,
+};
 
-let config ={
-    persistencia:process.env.PERSISTENCIA 
-}
- 
-
-module.exports = {config};
-
+module.exports = { config };

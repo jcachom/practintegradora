@@ -1,4 +1,4 @@
-let messagesModel = require("../mongodb/models/messages.model");
+let messagesModel = require("./models/messages.model");
 
 class messagesManager {
   constructor() {}

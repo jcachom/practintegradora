@@ -1,17 +1,13 @@
-let cartModel = require("../mongodb/models/cart.model");
+let cartModel = require("./models/cart.model");
+let productosModel = require("./models/productos.model");
 
 const { ApiResponse } = require("../../response");
 
-let productManager = require("./productdbManager");
-
-let oProducto = new productManager();
-
-class cartManager {
+class cartsDAO {
   constructor() {}
 
   async createCart() {
     let new_cart = null;
-
     let new_cart_id = 1;
     let cart_find = await cartModel.find().sort({ id: -1 }).limit(1);
     if (cart_find.length > 0) new_cart_id = new Number(cart_find[0].id) + 1;
@@ -20,12 +16,9 @@ class cartManager {
       id: new_cart_id,
       products: [],
     };
-
     let result = await cartModel.create(new_cart);
 
-    return new ApiResponse("OK", "Cart creado", {
-      cart_id: new_cart_id,
-    }).response();
+    return { cart_id: new_cart_id };
   }
 
   async addProductCartMasivo(idCart, listProduct) {
@@ -45,9 +38,8 @@ class cartManager {
     if (oCarrito == null)
       return new ApiResponse("ERROR", "Cart no encontrado", null).response();
 
-    let responseProduct = await oProducto.getProductById(idProduct);
-
-    console.log(responseProduct);
+    let productos = await productosModel.find({ id: { $eq: idProduct } });
+    let responseProduct = productos.map((item) => item.toObject());
 
     if (responseProduct.length == 0)
       return new ApiResponse("ERROR", "Producto no existe", null).response();
@@ -59,7 +51,7 @@ class cartManager {
       let result = await oCarrito.save();
     } else {
       let producto = {
-        idproducto: responseProduct.payload[0]._id,
+        idproducto: responseProduct[0]._id,
         id: idProduct,
         quantity: new Number(quantity),
       };
@@ -68,11 +60,7 @@ class cartManager {
       let result = await oCarrito.save();
     }
 
-    return new ApiResponse(
-      "OK",
-      "producto adicionado/actualizado.",
-      null
-    ).response();
+    return `[${idProduct}] producto adicionado/actualizado.`;
   }
 
   async getAllCart(condetalleProduct = false) {
@@ -92,19 +80,12 @@ class cartManager {
       .findOne({ id: { $eq: idCart } })
       .populate("products.idproducto");
 
-    if (oCarrito == null)
-      return new ApiResponse("ERROR", "Cart no encontrado", null).response();
-
-    return new ApiResponse("OK", "Cart encontrado", oCarrito).response();
+    return oCarrito;
   }
 
   async deleteCartbyId(idCart) {
     let result = await cartModel.deleteOne({ id: { $eq: idCart } });
-
-    if (result.deletedCount > 0)
-      return new ApiResponse("OK", "Cart eliminado", null).response();
-
-    return new ApiResponse("ERROR", "Cart no eliminado", null).response();
+    return result;
   }
 
   async deleteProductFromCart(idCart, idProducto) {
@@ -127,9 +108,7 @@ class cartManager {
     oCarrito.products.splice(index, 1);
 
     let result = await oCarrito.save();
-
-    return new ApiResponse("OK", "producto retirado.", null).response();
   }
 }
 
-module.exports = cartManager;
+module.exports = cartsDAO;

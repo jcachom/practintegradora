@@ -1,30 +1,34 @@
 let { Router } = require("express");
 const router = Router();
+const { ApiResponse } = require("../response");
 
 router.get("/setcookie", (req, res) => {
+ 
   try {
     res
       .cookie("codercookie", "Esto es cookie", { maxAge: 10000, signed: true })
-      .send("cookie");
+      .send(new ApiResponse("OK", "Cookie generado.", null).response());
   } catch (error) {
-    console.log(error);
+ 
+    res.send(new ApiResponse("ERROR", error.message, null).response());
   }
 });
 
 router.get("/getcookie", (req, res) => {
   try {
-    console.log(req.signedCookies);
-    res.send(req.signedCookies);
+    res.send(new ApiResponse("OK", "get cookie", req.signedCookies).response() );
   } catch (error) {
-    console.log(error);
+ 
+    res.send( new ApiResponse("ERROR", error.message, null).response());
   }
 });
 
 router.get("/deletecookie", (req, res) => {
   try {
-    res.clearCookie("codercookie").send("cookie eliminado");
+    res.clearCookie("codercookie").send(new ApiResponse("OK", "Cookie eliminado.", null).response());
   } catch (error) {
-    console.log(error);
+ 
+    res.send(new ApiResponse("ERROR", error.message, null).response());
   }
 });
 

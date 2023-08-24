@@ -1,25 +1,24 @@
 let { Router } = require("express");
 const router = Router();
 
-let userManager = require("../dao/mongodb/usersdbManager");
-
-let ouserManager = new userManager();
+const UserController = require("../controllers/users.controller");
+const userController = new UserController();
+const { ApiResponse } = require("../response");
 
 router.get("/", async (req, res) => {
+  let response;
   try {
-    let result = await ouserManager.getAll();
-    res.send({ status: "success", payload: result });
+    response = await userController.getAll();
   } catch (error) {
-    res.send({ status: "error", mensaje: error.message });
+    response = new ApiResponse("ERROR", error.message, null).response();
   }
+  res.send(response);
 });
 
 router.post("/", async (req, res) => {
+  let response;
   try {
     const { first_name, last_name, email, birthDate, gender, role } = req.body;
-
-    if (!first_name || !last_name || !email || !role)
-      res.send({ status: "error", error: "Incomplete valores" });
 
     let newUser = {
       first_name,
@@ -29,41 +28,35 @@ router.post("/", async (req, res) => {
       gender,
       role,
     };
-    let result = await ouserManager.saveUser(newUser);
-    res.send({ status: "success", payload: result });
+    response = await userController.saveUser(newUser);
   } catch (error) {
-    res.send({ status: "error", mensaje: error.message });
+    response = new ApiResponse("ERROR", error.message, null).response();
   }
+  res.send(response);
 });
 
 router.put("/:uid", async (req, res) => {
+  let response;
   try {
     let { uid } = req.params;
     let userToReplace = req.body;
-    if (
-      !userToReplace.first_name ||
-      !userToReplace.last_name ||
-      !userToReplace.email
-    )
-      res.send({ status: "error", error: "Incomplete valores" });
-
-    let result = await userModel.updateOne({ _id: uid }, userToReplace);
-
-    res.send({ result: "succes", payload: result });
+    response = await userController.updateUser(uid, userToReplace);
   } catch (error) {
-    res.send({ result: "error", error: error });
+    response = new ApiResponse("ERROR", error.message, null).response();
   }
+  res.send(response);
 });
 
 router.delete("/:uid", async (req, res) => {
+  let response;
   try {
     let { uid } = req.params;
-    let result = await userModel.deleteOne({ _id: uid });
-
-    res.send({ status: "succes", payload: result });
+    response = await userController.deleteUser(uid);
   } catch (error) {
-    res.send({ status: "error", error: error });
+    response = new ApiResponse("ERROR", error.message, null).response();
   }
+  res.send(response);
 });
 
+  
 module.exports = router;

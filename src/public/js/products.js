@@ -10,7 +10,7 @@ document.querySelector("#logout").addEventListener("click", () => {
       .then((result) => result.json())
 
       .then((json) => {
-        if (json.status == "succes")
+        if (json.status == "OK")
           location.href = "http://localhost:8080/login";
       });
   } catch (e) {
