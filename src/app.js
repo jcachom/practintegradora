@@ -117,10 +117,10 @@ app.use(
 );
 
 app.use("/api/sessions", sessionRouter);
-app.use("/api/cookies", cookiesRouter);
-app.use("/api/sessionscustom", sessioncustomRouter);
-app.use("/api/sessionslocalpassport", sessionLocalPassportRouter);
-app.use("/api/jwt", sessionjsonwebtoken);
+//app.use("/api/cookies", cookiesRouter);
+//app.use("/api/sessionscustom", sessioncustomRouter);
+//app.use("/api/sessionslocalpassport", sessionLocalPassportRouter);
+// app.use("/api/jwt", sessionjsonwebtoken);
  
 
 /*
