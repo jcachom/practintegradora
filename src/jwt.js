@@ -1,11 +1,16 @@
 let jwt = require("jsonwebtoken");
 const PRIVATE_KEY = "jtoken";
 const passport = require("passport");
+const { config } = require("./config/config");
+const { ApiResponse } = require("../src/response");
+
+const TOKENEXPIRES = config.TOKENEXPIRES;
+
+console.log(TOKENEXPIRES);
 
 const generateToken = (user) => {
-  const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "24h" });
+  const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: TOKENEXPIRES });
   //const token=jwt.sign({user},PRIVATE_KEY,{expiresIn:'20s'})
-
   return token;
 };
 
@@ -29,6 +34,7 @@ const passportCall = (strategy) => {
         return res
           .status(401)
           .send({ error: info.messages ? info.messages : info.toString() });
+
       req.user = user;
       next();
     })(req, res, next);
@@ -37,11 +43,33 @@ const passportCall = (strategy) => {
 
 const authorization = (role) => {
   return async (req, res, next) => {
-    if (!req.user) return res.status(401).send({ error: "No autorizado" });
-    if (req.user.role != role)
-      return res.status(403).send({ error: "No permitido" });
+    console.log("auth:");
+    console.log(req.user);
+    if (!req.user)
+      return res
+        .status(401)
+        .send(
+          new ApiResponse(
+            "ERROR",
+            "No autenticado o session expirado.",
+            null
+          ).response()
+        );
+
+    if (req.user.user.role != role)
+      return res
+        .status(403)
+        .send(new ApiResponse("ERROR", "No permitido.", null).response());
+
     next();
   };
+};
+const authorization_admin = (req, res, next) => {
+  if (req.user.user.role === "admin") {
+    next();
+  } else {
+    res.send(new ApiResponse("ERROR", "No permitido.", null).response());
+  }
 };
 
 module.exports = { generateToken, authToken, passportCall, authorization };

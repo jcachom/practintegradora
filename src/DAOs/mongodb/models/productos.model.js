@@ -2,7 +2,7 @@ let mongoose = require("mongoose");
 let mongoosePaginate = require("mongoose-paginate-v2");
 const modelCollection = "productos";
 const modelSchema = new mongoose.Schema({
-  id: Number,
+ 
   code: {
     type: String,
     require: true,

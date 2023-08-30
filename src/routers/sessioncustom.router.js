@@ -82,5 +82,4 @@ router.get("/privado", auth, (req, res) => {
   );
 });
 
- 
 module.exports = router;

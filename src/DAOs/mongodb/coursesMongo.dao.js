@@ -13,20 +13,15 @@ class coursesDAO {
     return result;
   };
 
-  updateCourse = async (uid,course) => {
-    let result = await coursesModel.updateOne({ _id: uid },course);
+  updateCourse = async (uid, course) => {
+    let result = await coursesModel.updateOne({ _id: uid }, course);
     return result;
   };
 
-  deleteCourse = async (uid ) => {
+  deleteCourse = async (uid) => {
     let result = await coursesModel.deleteOne({ _id: uid });
     return result;
-
- 
   };
-
-
-
 }
 
 module.exports = coursesDAO;

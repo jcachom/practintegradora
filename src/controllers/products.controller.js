@@ -20,8 +20,8 @@ class productController {
     return result;
   }
 
-  async getProductById(id) {
-    const result = await this.productService.getProductById(id);
+  async getProductById(uidProduct) {
+    const result = await this.productService.getProductById(uidProduct);
     return result;
   }
 
@@ -30,8 +30,8 @@ class productController {
     return result;
   }
 
-  async deleteProduct(uid) {
-    const result = await this.productService.deleteProduct(uid);
+  async deleteProduct(uidProduct) {
+    const result = await this.productService.deleteProduct(uidProduct);
     return result;
   }
 }

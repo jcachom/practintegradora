@@ -17,10 +17,8 @@ const initializePassportGitHub = () => {
       async (accessToken, refreshToken, profile, done) => {
         console.log(profile);
         try {
-          // let user = await userModel.findOne({ email: profile._json.email });
-          // let user = await userModel.findOne({ email: profile._json.login });
           let user = await userController.getbyEmail(profile._json.login);
-          // if (user) return done(null, false);
+
           if (user) return done(null, user);
 
           const newUser = {

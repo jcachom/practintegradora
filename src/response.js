@@ -1,4 +1,7 @@
 let bcrypt = require("bcrypt");
+const nodemailer=require("nodemailer")
+ 
+const { config } = require("../src/config/config");
 
 class ApiResponse {
   constructor(status, msg, payload) {
@@ -22,4 +25,25 @@ const createHash = (password) =>
 const isValidPassword = (user, password) =>
   bcrypt.compareSync(password, user.password);
 
-module.exports = { ApiResponse, ___dirname, createHash, isValidPassword };
+  const transportGmail=nodemailer.createTransport({
+    service:"gmail",
+    port:587,
+    auth:{
+      user:config.GMAIL.USER,
+      pass:config.GMAIL.CREDENTIAL     
+  }});
+
+ 
+  const   sendEmailGmail=async (to , subject, message)=>{
+    let result=await transportGmail.sendMail({
+     from : config.GMAIL.USER,
+     to :to,
+     subject:subject,
+     html: `<div>${message} <div>`,
+      attachments:[]
+    })
+    return result
+  }
+
+ 
+module.exports = { ApiResponse, ___dirname, createHash, isValidPassword ,sendEmailGmail};

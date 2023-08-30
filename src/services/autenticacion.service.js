@@ -95,5 +95,3 @@ class autenticacionService {
 }
 
 module.exports = autenticacionService;
-
- 

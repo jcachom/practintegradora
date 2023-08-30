@@ -63,10 +63,12 @@ const coursesRouter = require("./routers/courses.router");
 const cartsRouter = require("./routers/carts.router");
 const chatRouter = require("./routers/chat.router");
 const viewsRouter = require("./routers/views.router");
+const sessionRouter = require("./routers/session.router");
+const notificacionRouter = require("./routers/notificacion.router");
+
 
  const cookiesRouter = require("./routers/cookies.router");
  const sessioncustomRouter = require("./routers/sessioncustom.router");
- const sessionRouter = require("./routers/session.router");
  const sessionLocalPassportRouter = require("./routers/localpassport.router");
  const sessionjsonwebtoken = require("./routers/jsonwebtoken.router");
 
@@ -117,6 +119,10 @@ app.use(
 );
 
 app.use("/api/sessions", sessionRouter);
+app.use("/api/notificacion", notificacionRouter);
+
+
+
 //app.use("/api/cookies", cookiesRouter);
 //app.use("/api/sessionscustom", sessioncustomRouter);
 //app.use("/api/sessionslocalpassport", sessionLocalPassportRouter);

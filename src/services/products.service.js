@@ -51,8 +51,8 @@ class productService {
     }).response();
   }
 
-  async getProductById(id) {
-    let productos = await this.productDAO.getProductById(id);
+  async getProductById(uidProduct) {
+    let productos = await this.productDAO.getProductById(uidProduct);
 
     return productos;
   }
@@ -66,8 +66,8 @@ class productService {
     return new ApiResponse("ERROR", "No encontrado", null).response();
   }
 
-  async deleteProduct(uid) {
-    let result = await this.productDAO.deleteProduct(uid);
+  async deleteProduct(uidProduct) {
+    let result = await this.productDAO.deleteProduct(uidProduct);
 
     if (result.deletedCount > 0)
       return new ApiResponse("OK", "", null).response();

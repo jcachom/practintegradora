@@ -5,13 +5,7 @@ class productDAO {
   constructor() {}
 
   async addProduct(product) {
-    let new_product_id = 1;
-    let productos_find = await productosModel.find().sort({ id: -1 }).limit(1);
-    if (productos_find.length > 0)
-      new_product_id = new Number(productos_find[0].id) + 1;
-
     let new_product = {
-      id: new_product_id,
       ...product,
     };
     let result = await productosModel.create(new_product);
@@ -39,19 +33,19 @@ class productDAO {
     return productos;
   }
 
-  async getProductById(id) {
-    let productos = await productosModel.find({ id: { $eq: id } });
+  async getProductById(uidProduct) {
+    let productos = await productosModel.find({ _id: { $eq: uidProduct } });
     let list = productos.map((item) => item.toObject());
     return list;
   }
 
   async updateProduct(product) {
-    let result = await productosModel.updateOne({ id: product.id }, product);
+    let result = await productosModel.updateOne({ _id: product._id }, product);
     return result;
   }
 
-  async deleteProduct(uid) {
-    let result = await productosModel.deleteOne({ id: uid });
+  async deleteProduct(uidProduct) {
+    let result = await productosModel.deleteOne({ _id: uidProduct });
     return result;
   }
 }

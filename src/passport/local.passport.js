@@ -3,7 +3,7 @@ const local = require("passport-local");
 
 const UserController = require("../controllers/users.controller");
 const userController = new UserController();
-
+const { config } = require("../config/config");
 const { createHash, isValidPassword } = require("../response");
 
 const localStrategy = local.Strategy;
@@ -66,6 +66,9 @@ const initializePassportLocal = () => {
             return done(null, false);
           }
           req.status = "OK";
+
+          if (user.email == config.ADMIN.EMAIL) user.rol = "admin";
+
           req.user = user;
           return done(null, user);
         } catch (error) {

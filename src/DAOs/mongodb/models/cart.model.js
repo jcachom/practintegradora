@@ -2,25 +2,24 @@ let mongoose = require("mongoose");
 let mongoosePaginate = require("mongoose-paginate-v2");
 const modelCollection = "cart";
 const itemSchema = new mongoose.Schema({
-  idproducto: {
+  producto: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "productos",
   },
-  id: {
-    type: Number,
-    require: true,
-    minLength: 1,
-    index: true,
-  },
+
   quantity: {
     type: Number,
     require: true,
-    min: 1,
+    min: 0,
   },
 });
 
 const modelSchema = new mongoose.Schema({
   id: Number,
+  email: {
+    type: String,
+    require: true,
+  },
   products: [itemSchema],
 });
 

@@ -2,6 +2,7 @@ let { Router } = require("express");
 const passport = require("passport");
 const { ApiResponse } = require("../response");
 const { generateToken, authToken, passportCall } = require("../jwt");
+const UserDTO = require("../DAOs/DTOs/userDTO");
 
 const router = Router();
 
@@ -29,16 +30,23 @@ router.post(
     failureRedirect: "/faillogin",
   }),
   async (req, res) => {
-     
-    if (req.status != "OK") {
-      res.send(
-        new ApiResponse("ERROR", "Error en las credenciales.", null).response()
-      );
-    } else {
-      let token = generateToken(req.user);
+    try {
+      if (req.status != "OK") {
+        res.send(
+          new ApiResponse(
+            "ERROR",
+            "Error en las credenciales.",
+            null
+          ).response()
+        );
+      } else {
+        let token = generateToken(req.user);
 
-      let response = new ApiResponse("OK", "Login", req.user).response();
-      res.cookie("codercookie", token, { httpOnly: true }).send(response);
+        let response = new ApiResponse("OK", "Autenticación correcta.", null).response();
+        res.cookie("codercookie", token, { httpOnly: true }).send(response);
+      }
+    } catch (error) {
+      res.send(new ApiResponse("ERROR", error.message, null).response());
     }
   }
 );
@@ -47,13 +55,15 @@ router.get("/faillogin", (req, res) => {
   res.send(new ApiResponse("ERROR", "Falló login.", null).response());
 });
 
-router.get(
-  "/current",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
+router.get("/current", passportCall("jwt"), (req, res) => {
+  try {
+    const userDTO = new UserDTO(req.user.user);
+    req.user.user = userDTO;
     res.send(req.user);
+  } catch (error) {
+    res.send(new ApiResponse("ERROR", error.message, null).response());
   }
-);
+});
 
 router.get(
   "/github",

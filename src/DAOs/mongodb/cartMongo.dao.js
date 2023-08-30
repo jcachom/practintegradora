@@ -1,73 +1,73 @@
 let cartModel = require("./models/cart.model");
 let productosModel = require("./models/productos.model");
-
+let ticketModel = require("./models/tickets.model");
+const { v4: uuidv4 } = require("uuid");
 const { ApiResponse } = require("../../response");
 
 class cartsDAO {
   constructor() {}
 
-  async createCart() {
-    let new_cart = null;
-    let new_cart_id = 1;
-    let cart_find = await cartModel.find().sort({ id: -1 }).limit(1);
-    if (cart_find.length > 0) new_cart_id = new Number(cart_find[0].id) + 1;
-
-    new_cart = {
-      id: new_cart_id,
+  async createCart(email) {
+    let new_cart = {
+      email: email,
       products: [],
     };
+
     let result = await cartModel.create(new_cart);
 
-    return { cart_id: new_cart_id };
+    return result;
   }
 
-  async addProductCartMasivo(idCart, listProduct) {
+  async addProductCartMasivo(uidCart, listProduct) {
     let responses = [];
     for (const item of listProduct) {
-      let response = await this.addProductCart(idCart, item.id, item.quantity);
+      let response = await this.addProductCart(
+        uidCart,
+        item._id,
+        item.quantity
+      );
       responses.push(response);
     }
     return responses;
   }
 
-  async addProductCart(idCart, idProduct, quantity) {
-    idProduct = new Number(idProduct);
-
-    let oCarrito = await cartModel.findOne({ id: { $eq: idCart } });
-
+  async addProductCart(uidCart, uidProduct, quantity) {
+    let oCarrito = await cartModel.findOne({ _id: { $eq: uidCart } });
     if (oCarrito == null)
       return new ApiResponse("ERROR", "Cart no encontrado", null).response();
 
-    let productos = await productosModel.find({ id: { $eq: idProduct } });
-    let responseProduct = productos.map((item) => item.toObject());
+    let producto = await productosModel
+      .findOne({ _id: { $eq: uidProduct } })
+      .lean();
 
-    if (responseProduct.length == 0)
+    if (!producto == null)
       return new ApiResponse("ERROR", "Producto no existe", null).response();
 
-    let ofindProducto = oCarrito.products.find((item) => item.id == idProduct);
+    let ofindProducto = oCarrito.products.find(
+      (item) => item.producto._id == uidProduct
+    );
 
     if (ofindProducto) {
       ofindProducto.quantity = ofindProducto.quantity + new Number(quantity);
       let result = await oCarrito.save();
     } else {
-      let producto = {
-        idproducto: responseProduct[0]._id,
-        id: idProduct,
+      let newproducto = {
+        producto: producto._id,
         quantity: new Number(quantity),
       };
 
-      oCarrito.products.push(producto);
+      oCarrito.products.push(newproducto);
       let result = await oCarrito.save();
     }
 
-    return `[${idProduct}] producto adicionado/actualizado.`;
+    return `[${uidProduct}] producto adicionado/actualizado.`;
   }
 
   async getAllCart(condetalleProduct = false) {
     let list_cart;
 
     if (condetalleProduct) {
-      list_cart = await cartModel.find().populate("products.idproducto");
+      list_cart = await cartModel.find().populate("products.producto");
     } else {
       list_cart = await cartModel.find();
     }
@@ -75,28 +75,34 @@ class cartsDAO {
     return list_cart;
   }
 
-  async getCartbyId(idCart) {
+  async getCartbyId(uidCart) {
     let oCarrito = await cartModel
-      .findOne({ id: { $eq: idCart } })
-      .populate("products.idproducto");
+      .findOne({ _id: { $eq: uidCart } })
+      .populate("products.producto");
 
     return oCarrito;
   }
 
-  async deleteCartbyId(idCart) {
-    let result = await cartModel.deleteOne({ id: { $eq: idCart } });
+  async deleteCartbyId(uidCart) {
+    let result = await cartModel.deleteOne({ _id: { $eq: uidCart } });
     return result;
   }
 
-  async deleteProductFromCart(idCart, idProducto) {
-    idProducto = new Number(idProducto);
+  async getCartbyEmail(email) {
+    let result = await cartModel.findOne({ email: email });
 
-    let oCarrito = await cartModel.findOne({ id: { $eq: idCart } });
+    return result;
+  }
+
+  async deleteProductFromCart(uidCart, uidProduct) {
+    let oCarrito = await cartModel.findOne({ _id: { $eq: uidCart } });
 
     if (oCarrito == null)
       return new ApiResponse("ERROR", "Cart no encontrado", null).response();
 
-    const index = oCarrito.products.findIndex((item) => item.id == idProducto);
+    const index = oCarrito.products.findIndex(
+      (item) => item.producto._id == uidProduct
+    );
 
     if (index == -1)
       return new ApiResponse(
@@ -108,6 +114,89 @@ class cartsDAO {
     oCarrito.products.splice(index, 1);
 
     let result = await oCarrito.save();
+    return result;
+  }
+
+  async getAllTicket() {
+    let list_ticket;
+
+    list_ticket = await ticketModel.find().lean();
+
+    return list_ticket;
+  }
+
+  async generarTicket(uidCart) {
+    let oCarrito = await cartModel.findOne({ _id: { $eq: uidCart } });
+
+    if (oCarrito == null)
+      return new ApiResponse("ERROR", "Cart no encontrado", null).response();
+
+    if (oCarrito.products.length == 0)
+      return new ApiResponse("ERROR", "Cart sin productos.", null).response();
+
+    let producto;
+    let listProductTicket = [];
+    let listProductNoDisp = [];
+    let totalTicket = 0;
+
+    let addList = (producto, quantity, ldestino) => {
+      let item = {
+        idProduct: producto._id,
+        code: producto.code,
+        description: producto.description,
+        price: producto.price,
+        quantity: quantity,
+      };
+      if (ldestino == "TICKET") listProductTicket.push(item);
+      if (ldestino == "NODISP") listProductNoDisp.push(item);
+    };
+
+    let listProducts = oCarrito.products.map((item) => {
+      let newitem = {
+        _id: item.producto._id.toString(),
+        quantity: item.quantity,
+      };
+      return newitem;
+    });
+
+    for (let index = 0; index < listProducts.length; index++) {
+      const itemp = listProducts[index];
+      producto = await productosModel
+        .findOne({ _id: { $eq: itemp._id } })
+        .lean();
+      if (producto) {
+        if (producto.stock >= itemp.quantity) {
+          addList(producto, itemp.quantity, "TICKET");
+          totalTicket = totalTicket + itemp.quantity * producto.price;
+        } else {
+          addList(producto, itemp.quantity, "NODISP");
+        }
+      }
+    }
+
+    if (listProductTicket.length == 0)
+      return new ApiResponse("ERROR", "Producto sin stock.", null).response();
+    let ticket = {
+      code: uuidv4(),
+      amount: totalTicket,
+      pucrhaser: oCarrito.email,
+      products: listProductTicket,
+    };
+    let resultTicket = await ticketModel.create(ticket);
+
+    listProductTicket.forEach((itemticket) => {
+      const index = oCarrito.products.findIndex(
+        (item) =>
+          item.producto._id.toString() == itemticket.idProduct.toString()
+      );
+      if (index >= 0) oCarrito.products.splice(index, 1);
+    });
+    let resultCart = await oCarrito.save();
+
+    return {
+      ticket: resultTicket,
+      noincluido: listProductNoDisp,
+    };
   }
 }
 

@@ -2,6 +2,7 @@ let { Router } = require("express");
 const router = Router();
 
 const UserController = require("../controllers/users.controller");
+
 const userController = new UserController();
 const { ApiResponse } = require("../response");
 
@@ -15,10 +16,11 @@ router.get("/", async (req, res) => {
   res.send(response);
 });
 
+/*
 router.post("/", async (req, res) => {
   let response;
   try {
-    const { first_name, last_name, email, birthDate, gender, role } = req.body;
+   const { first_name, last_name, email, birthDate, gender, role } = req.body;
 
     let newUser = {
       first_name,
@@ -27,13 +29,15 @@ router.post("/", async (req, res) => {
       birthDate,
       gender,
       role,
-    };
+    }; 
     response = await userController.saveUser(newUser);
   } catch (error) {
     response = new ApiResponse("ERROR", error.message, null).response();
   }
   res.send(response);
 });
+
+*/
 
 router.put("/:uid", async (req, res) => {
   let response;

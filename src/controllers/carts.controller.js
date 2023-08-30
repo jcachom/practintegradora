@@ -1,27 +1,35 @@
 let CartService = require("../services/carts.service");
+const { ApiResponse } = require("../response");
 
 class cartController {
   constructor() {
     this.cartService = new CartService();
   }
 
-  async createCart() {
-    let result = await this.cartService.createCart();
+  async createCart(email) {
+    if (email == "")
+      return new ApiResponse(
+        "ERROR",
+        "Email usuario no enviado",
+        null
+      ).response();
+    let result = await this.cartService.createCart(email);
+
     return result;
   }
 
-  async addProductCartMasivo(idCart, listProduct) {
+  async addProductCartMasivo(uidCart, listProduct) {
     let result = await this.cartService.addProductCartMasivo(
-      idCart,
+      uidCart,
       listProduct
     );
     return result;
   }
 
-  async addProductCart(idCart, idProduct, quantity) {
+  async addProductCart(uidCart, uidProduct, quantity) {
     let result = await this.cartService.addProductCart(
-      idCart,
-      idProduct,
+      uidCart,
+      uidProduct,
       quantity
     );
     return result;
@@ -32,21 +40,31 @@ class cartController {
     return result;
   }
 
-  async getCartbyId(idCart) {
-    let result = await this.cartService.getCartbyId(idCart);
+  async getCartbyId(uidCart) {
+    let result = await this.cartService.getCartbyId(uidCart);
     return result;
   }
 
-  async deleteCartbyId(idCart) {
-    let result = await this.cartService.deleteCartbyId(idCart);
+  async deleteCartbyId(uidCart) {
+    let result = await this.cartService.deleteCartbyId(uidCart);
     return result;
   }
 
-  async deleteProductFromCart(idCart, idProducto) {
+  async deleteProductFromCart(uidCart, uidProduct) {
     let result = await this.cartService.deleteProductFromCart(
-      idCart,
-      idProducto
+      uidCart,
+      uidProduct
     );
+    return result;
+  }
+  async getAllTicket() {
+    let result = await this.cartService.getAllTicket();
+    return result;
+  }
+
+  async generarTicket(uidCart) {
+    let result = await this.cartService.generarTicket(uidCart);
+
     return result;
   }
 }
