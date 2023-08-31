@@ -1,8 +1,10 @@
 let { Router } = require("express");
 const router = Router();
-const { authorization } = require("../jwt");
+ 
 const { config } = require("../config/config");
 const ROL = config.ROL;
+const passport = require("passport");
+const { rolMdw } = require("../routers/middlewares/roles.middleware");
 const { ApiResponse } = require("../response");
 let ChatController = require("../controllers/messages.controller");
 let chatController = new ChatController();
@@ -17,7 +19,8 @@ router.get("/", async (req, res) => {
   res.json(response);
 });
 
-router.post("/", authorization(ROL.USER), async (req, res) => {
+router.post("/",  passport.authenticate("jwt", { session: false }),
+rolMdw(ROL.USER), async (req, res) => {
   let response;
   try {
     let msgchat = req.body;

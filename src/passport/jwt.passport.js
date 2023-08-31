@@ -1,6 +1,10 @@
 const passport = require("passport");
 const jwt = require("passport-jwt");
-const PRIVATE_KEY = "jtoken";
+const { config } = require("../config/config");
+//const PRIVATE_KEY = "jtoken";
+const PRIVATE_KEY = config.PRIVATE_KEY_JWT
+const COOKIESESSION = config.COOKIESESSION
+ 
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -23,11 +27,12 @@ const initializePassportJWT = () => {
     )
   );
 };
-
+//COOKIESESSION
 const cookieExtractor = (req) => {
   let token = null;
   if (req && req.cookies) {
-    token = req.cookies["codercookie"];
+   // token = req.cookies["codercookie"];
+   token = req.cookies[COOKIESESSION];
   }
   return token;
 };

@@ -1,4 +1,10 @@
-const PUERTO = 8080;
+ 
+
+const { config } = require("./config/config");
+
+ 
+
+const PUERTO = 8080 || config.PORT
 
 const ConnectionMongo = require(".//connection/connectionMongo");
  
@@ -23,8 +29,12 @@ const { Server } = require("socket.io");
 let { ___dirname } = require("./response");
 const path = require("path");
 
-const MONGO_ATLAS_URI =
+
+const MONGO_ATLAS_URI =config.MONGO_ATLAS_URI
+
+/*const MONGO_ATLAS_URI =
   "mongodb+srv://root:V5862GR3lrcPXvmk@cluster0.lyn5t.mongodb.net/dbcoder2023?retryWrites=true&w=majority";
+  */
 
 const app = express();
 

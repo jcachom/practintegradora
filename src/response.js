@@ -22,8 +22,8 @@ class ApiResponse {
 let ___dirname = __dirname;
 const createHash = (password) =>
   bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-const isValidPassword = (user, password) =>
-  bcrypt.compareSync(password, user.password);
+const isValidPassword = (user_password, password) =>
+  bcrypt.compareSync(password, user_password);
 
   const transportGmail=nodemailer.createTransport({
     service:"gmail",

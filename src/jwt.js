@@ -1,12 +1,13 @@
 let jwt = require("jsonwebtoken");
-const PRIVATE_KEY = "jtoken";
+//const PRIVATE_KEY = "jtoken";
 const passport = require("passport");
 const { config } = require("./config/config");
 const { ApiResponse } = require("../src/response");
 
 const TOKENEXPIRES = config.TOKENEXPIRES;
+const PRIVATE_KEY = config.PRIVATE_KEY_JWT
 
-console.log(TOKENEXPIRES);
+ 
 
 const generateToken = (user) => {
   const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: TOKENEXPIRES });

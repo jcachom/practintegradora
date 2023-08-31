@@ -6,9 +6,7 @@ class usersDAO {
 
   getAll = async () => {
     let result = await usersModel.find({},{password:0}).lean();
-
-     
-
+ 
     return result;
   };
 

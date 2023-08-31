@@ -129,7 +129,6 @@ router.delete("/:cid/product/:pid", async (req, res) => {
   res.json(response);
 });
 
-
 router.get("/all/purchase", async (req, res) => {
   let response;
   try {
@@ -140,7 +139,6 @@ router.get("/all/purchase", async (req, res) => {
 
   res.json(response);
 });
-
 
 router.post("/:cid/purchase", async (req, res) => {
   let response;
