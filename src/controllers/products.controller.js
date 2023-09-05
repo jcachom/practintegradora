@@ -1,5 +1,8 @@
 let ProductService = require("../services/products.service");
 
+const { EErrors } = require("../errors/enum");
+const CustomError = require("../errors/customError");
+
 class productController {
   constructor() {
     this.productService = new ProductService();
@@ -20,18 +23,36 @@ class productController {
     return result;
   }
 
-  async getProductById(uidProduct) {
-    const result = await this.productService.getProductById(uidProduct);
+  async getProductById(uid) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id product",
+      value: uid,
+    });
+
+    const result = await this.productService.getProductById(uid);
     return result;
   }
 
   async updateProduct(product) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id product",
+      value: product._id,
+    });
+
     const result = await this.productService.updateProduct(product);
     return result;
   }
 
-  async deleteProduct(uidProduct) {
-    const result = await this.productService.deleteProduct(uidProduct);
+  async deleteProduct(uid) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id product",
+      value: uid,
+    });
+
+    const result = await this.productService.deleteProduct(uid);
     return result;
   }
 }

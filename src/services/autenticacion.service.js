@@ -1,4 +1,4 @@
-const { isValidPassword, ApiResponse, createHash } = require("../response");
+const { isValidPassword, ApiResponse, createHash } = require("../util");
 const { generateToken } = require("../jwt");
 const UserDAO = require("../DAOs/mongodb/usersMongo.dao");
 

@@ -1,5 +1,5 @@
 const AutenticacionService = require("../services/autenticacion.service");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 
 class autenticacionController {
   constructor() {

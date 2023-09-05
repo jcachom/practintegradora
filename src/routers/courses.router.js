@@ -1,7 +1,7 @@
 let { Router } = require("express");
 const router = Router();
 
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 let CoursesController = require("../controllers/courses.controller");
 let coursesController = new CoursesController();
 

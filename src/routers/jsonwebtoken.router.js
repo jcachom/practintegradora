@@ -1,6 +1,6 @@
 let { Router } = require("express");
 
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 const AuthController = require("../controllers/autenticacion.controller");
 const authController = new AuthController();
 

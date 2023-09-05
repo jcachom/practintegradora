@@ -4,7 +4,7 @@ const router = Router();
 const UserController = require("../controllers/users.controller");
 
 const userController = new UserController();
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 
 router.get("/", async (req, res) => {
   let response;
@@ -15,6 +15,9 @@ router.get("/", async (req, res) => {
   }
   res.send(response);
 });
+
+
+ 
 
 /*
 router.post("/", async (req, res) => {

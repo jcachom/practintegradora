@@ -1,5 +1,5 @@
 let productosModel = require("./models/productos.model");
-const { ApiResponse } = require("../../response");
+ 
 
 class productDAO {
   constructor() {}

@@ -1,5 +1,8 @@
 let CartService = require("../services/carts.service");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
+
+const { EErrors } = require("../errors/enum");
+const CustomError = require("../errors/customError");
 
 class cartController {
   constructor() {
@@ -19,6 +22,12 @@ class cartController {
   }
 
   async addProductCartMasivo(uidCart, listProduct) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id cart",
+      value: uidCart,
+    });
+
     let result = await this.cartService.addProductCartMasivo(
       uidCart,
       listProduct
@@ -27,6 +36,22 @@ class cartController {
   }
 
   async addProductCart(uidCart, uidProduct, quantity) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id cart",
+      value: uidCart,
+    });
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id product",
+      value: uidProduct,
+    });
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_NUMBER,
+      field: "quantity",
+      value: quantity,
+    });
+
     let result = await this.cartService.addProductCart(
       uidCart,
       uidProduct,
@@ -41,16 +66,39 @@ class cartController {
   }
 
   async getCartbyId(uidCart) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id cart",
+      value: uidCart,
+    });
+
     let result = await this.cartService.getCartbyId(uidCart);
     return result;
   }
 
   async deleteCartbyId(uidCart) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id cart",
+      value: uidCart,
+    });
+
     let result = await this.cartService.deleteCartbyId(uidCart);
     return result;
   }
 
   async deleteProductFromCart(uidCart, uidProduct) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id cart",
+      value: uidCart,
+    });
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id product",
+      value: uidProduct,
+    });
+
     let result = await this.cartService.deleteProductFromCart(
       uidCart,
       uidProduct
@@ -63,6 +111,12 @@ class cartController {
   }
 
   async generarTicket(uidCart) {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id cart",
+      value: uidCart,
+    });
+
     let result = await this.cartService.generarTicket(uidCart);
 
     return result;

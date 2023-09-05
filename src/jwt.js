@@ -2,7 +2,7 @@ let jwt = require("jsonwebtoken");
 //const PRIVATE_KEY = "jtoken";
 const passport = require("passport");
 const { config } = require("./config/config");
-const { ApiResponse } = require("../src/response");
+const { ApiResponse } = require("../src/util");
 
 const TOKENEXPIRES = config.TOKENEXPIRES;
 const PRIVATE_KEY = config.PRIVATE_KEY_JWT

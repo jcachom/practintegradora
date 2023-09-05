@@ -1,5 +1,5 @@
 const UsersDAO = require("../DAOs/mongodb/usersMongo.dao");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 
 class usersService {
   constructor() {

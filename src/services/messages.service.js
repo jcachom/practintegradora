@@ -1,5 +1,5 @@
 const MessagesDAO = require("../DAOs/mongodb/messagesMongo.dao");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 
 class messagesService {
   constructor() {

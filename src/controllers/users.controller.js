@@ -1,5 +1,7 @@
 let UserService = require("../services/users.service");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
+const { EErrors } = require("../errors/enum");
+const CustomError = require("../errors/customError");
 
 class userController {
   constructor() {
@@ -27,6 +29,12 @@ class userController {
   };
 
   updateUser = async (uid, user) => {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id user",
+      value: uid,
+    });
+
     if (!user.first_name || !user.last_name || !user.email || !user.role)
       return new ApiResponse("ERROR", "Incompleted valores", null).response();
 
@@ -36,6 +44,12 @@ class userController {
   };
 
   deleteUser = async (uid) => {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id user",
+      value: uid,
+    });
+
     let result = await this.userService.deleteUser(uid);
 
     return result;

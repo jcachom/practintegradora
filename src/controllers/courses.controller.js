@@ -1,5 +1,7 @@
 const CoursesService = require("../services/courses.service");
-const { ApiResponse } = require("../response");
+
+const { EErrors } = require("../errors/enum");
+const CustomError = require("../errors/customError");
 
 class coursesController {
   constructor() {
@@ -18,12 +20,24 @@ class coursesController {
   };
 
   updateCourse = async (uid, course) => {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id curso",
+      value: uid,
+    });
+
     let result = await this.coursesservice.updateCourse(uid, course);
     return result;
   };
 
-  deleteCourse = async (id) => {
-    let result = await this.coursesservice.deleteCourse(id);
+  deleteCourse = async (uid) => {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id curso",
+      value: uid,
+    });
+
+    let result = await this.coursesservice.deleteCourse(uid);
     return result;
   };
 }

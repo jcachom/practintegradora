@@ -1,6 +1,6 @@
 let { Router } = require("express");
 const passport = require("passport");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 const AutenticacionController = require("../controllers/autenticacion.controller");
 const authController = new AutenticacionController();
 

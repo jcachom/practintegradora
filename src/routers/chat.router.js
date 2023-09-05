@@ -5,7 +5,7 @@ const { config } = require("../config/config");
 const ROL = config.ROL;
 const passport = require("passport");
 const { rolMdw } = require("../routers/middlewares/roles.middleware");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 let ChatController = require("../controllers/messages.controller");
 let chatController = new ChatController();
 

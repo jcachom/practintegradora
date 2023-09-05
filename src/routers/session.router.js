@@ -1,6 +1,6 @@
 let { Router } = require("express");
 const passport = require("passport");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 const { generateToken, authToken, passportCall } = require("../jwt");
 const { config } = require("../config/config");
 const UserDTO = require("../DAOs/DTOs/userDTO");

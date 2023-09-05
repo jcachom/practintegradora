@@ -2,7 +2,7 @@ let { Router } = require("express");
 const router = Router();
 const ProductController = require("../controllers/products.controller");
 const productController = new ProductController();
-const { ApiResponse } = require("../response");
+const { ApiResponse} = require("../util");
 const { rolMdw } = require("../routers/middlewares/roles.middleware");
 const { config } = require("../config/config");
 const passport = require("passport");
@@ -18,6 +18,9 @@ router.get("/:pid", async (req, res) => {
   }
   res.json(response);
 });
+
+
+
 //http://localhost:8080/products/7
 
 router.get("/", async (req, res) => {

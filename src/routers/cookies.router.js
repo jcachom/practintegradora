@@ -1,6 +1,6 @@
 let { Router } = require("express");
 const router = Router();
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 
 router.get("/setcookie", (req, res) => {
   try {

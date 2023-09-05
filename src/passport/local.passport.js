@@ -4,7 +4,7 @@ const local = require("passport-local");
 const UserController = require("../controllers/users.controller");
 const userController = new UserController();
 const { config } = require("../config/config");
-const { createHash, isValidPassword } = require("../response");
+const { createHash, isValidPassword } = require("../util");
 
 const localStrategy = local.Strategy;
 

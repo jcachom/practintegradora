@@ -2,7 +2,7 @@ let cartModel = require("./models/cart.model");
 let productosModel = require("./models/productos.model");
 let ticketModel = require("./models/tickets.model");
 const { v4: uuidv4 } = require("uuid");
-const { ApiResponse } = require("../../response");
+const { ApiResponse } = require("../../util");
 
 class cartsDAO {
   constructor() {}

@@ -26,7 +26,7 @@ const handlebars = require("express-handlebars");
  const initializePassportLocal = require("./passport/local.passport");
 
 const { Server } = require("socket.io");
-let { ___dirname } = require("./response");
+let { ___dirname } = require("./util");
 const path = require("path");
 
 
@@ -69,6 +69,7 @@ let connection;
 const usersRouter = require("./routers/users.router");
 const productsRouter = require("./routers/products.router");
 const coursesRouter = require("./routers/courses.router");
+const mockingRouter = require("./routers/mocking.router");
 
 const cartsRouter = require("./routers/carts.router");
 const chatRouter = require("./routers/chat.router");
@@ -114,6 +115,8 @@ app.use("/api/courses", coursesRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", chatRouter);
 app.use("/", viewsRouter);
+app.use("/api/mocking/", mockingRouter);
+
 
 app.use(
   session({

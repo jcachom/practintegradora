@@ -1,4 +1,4 @@
-const { ApiResponse } = require("../../response");
+const { ApiResponse } = require("../../util");
 const rolMdw = (role) => {
   return async (req, res, next) => {
     if (req.user.user.role != role)

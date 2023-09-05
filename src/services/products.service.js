@@ -1,5 +1,5 @@
 const ProductDAO = require("../DAOs/mongodb/productMongo.dao");
-const { ApiResponse } = require("../response");
+const { ApiResponse } = require("../util");
 
 class productService {
   constructor() {
