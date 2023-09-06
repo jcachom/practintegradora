@@ -17,8 +17,6 @@ const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 
-//const mongoose = require("mongoose");
-
 const handlebars = require("express-handlebars");
 
  const initializePassportGitHub = require("./passport/github.passport");
@@ -29,14 +27,15 @@ const { Server } = require("socket.io");
 let { ___dirname } = require("./util");
 const path = require("path");
 
+const {addLogger} = require("./utils/logger")
+
 
 const MONGO_ATLAS_URI =config.MONGO_ATLAS_URI
 
-/*const MONGO_ATLAS_URI =
-  "mongodb+srv://root:V5862GR3lrcPXvmk@cluster0.lyn5t.mongodb.net/dbcoder2023?retryWrites=true&w=majority";
-  */
-
 const app = express();
+
+ 
+//app.use(addLogger)
 
 app.engine("handlebars", handlebars.engine({ defaultLayout: "index" }));
 app.set("views", path.join(__dirname, "views", "hbs"));
@@ -49,27 +48,12 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const  connectionMongoInstance=ConnectionMongo.getInstance();
-/*
-let connection;
-(async () => {
-  try {
-    connection = mongoose.connect(MONGO_ATLAS_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
 
-    console.log("conexion establecida");
-    console.log("------------------------------------");
-  } catch (error) {
-    console.log(error);
-  }
-})();
-*/
  
 const usersRouter = require("./routers/users.router");
 const productsRouter = require("./routers/products.router");
 const coursesRouter = require("./routers/courses.router");
-const mockingRouter = require("./routers/mocking.router");
+ 
 
 const cartsRouter = require("./routers/carts.router");
 const chatRouter = require("./routers/chat.router");
@@ -77,6 +61,7 @@ const viewsRouter = require("./routers/views.router");
 const sessionRouter = require("./routers/session.router");
 const notificacionRouter = require("./routers/notificacion.router");
 
+ const testRouter =require("./routers/test.router.js")
 
  const cookiesRouter = require("./routers/cookies.router");
  const sessioncustomRouter = require("./routers/sessioncustom.router");
@@ -115,7 +100,8 @@ app.use("/api/courses", coursesRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", chatRouter);
 app.use("/", viewsRouter);
-app.use("/api/mocking/", mockingRouter);
+
+app.use("/api/test/", testRouter);
 
 
 app.use(

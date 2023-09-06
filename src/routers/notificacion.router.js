@@ -1,6 +1,9 @@
 let { Router } = require("express");
 const router = Router();
-const { ApiResponse, sendEmailGmail } = require("../util");
+
+const { sendEmailGmail } = require("../utils/email");
+
+const { ApiResponse} = require("../util");
 const ClientTwilio = require("twilio");
 const { config } = require("../config/config");
 

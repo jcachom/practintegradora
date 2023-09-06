@@ -1,5 +1,5 @@
 let jwt = require("jsonwebtoken");
-//const PRIVATE_KEY = "jtoken";
+ 
 const passport = require("passport");
 const { config } = require("./config/config");
 const { ApiResponse } = require("../src/util");
