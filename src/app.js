@@ -35,7 +35,7 @@ const MONGO_ATLAS_URI =config.MONGO_ATLAS_URI
 const app = express();
 
  
-//app.use(addLogger)
+app.use(addLogger)
 
 app.engine("handlebars", handlebars.engine({ defaultLayout: "index" }));
 app.set("views", path.join(__dirname, "views", "hbs"));

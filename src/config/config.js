@@ -27,6 +27,9 @@ let config = {
     AUTHTOKEN: process.env.TWILIOAUTHTOKEN,
     PHONENUMBERORIGIN: process.env.TWILIOPHONENUMBERORIGIN,
   },
+  ENVIRONMENT : {
+    CURRENT: process.env.ENVIRONMENT
+  }
 };
 
 module.exports = { config };

@@ -34,8 +34,10 @@ router.get("/mockingusers", async (req, res) => {
 router.get("/logger", async (req, res) => {
   let response;
   try {
-    req.logger.warn("alerta logger level warn")
+    //req.logger.warn("alerta logger level warn")
+    //req.logger.warning("alerta logger level warning")
     response={message:"Prueba logger"}
+ 
     
   } catch (error) {
     response = new ApiResponse("ERROR", error.message, null).response();
@@ -43,6 +45,31 @@ router.get("/logger", async (req, res) => {
   res.json(response);
 });
 
+
+router.get("/loggerTest", async (req, res) => {
+  let response;
+  try {
+    req.logger.debug("custome - alerta logger level debug")
+    req.logger.http("custome - alerta logger level http")
+    req.logger.info("custome - alerta logger level info")
+    req.logger.warning("custome - alerta logger level warning")
+   req.logger.fatal("custome - alerta logger level fatal")
+   try {
+    req.logger.error("custome - alerta logger level error")
+   } catch (error) {   
+    req.logger.warning(error.message) 
+   }
+   
+    response={message:"Prueba logger"}
+    
+  } catch (error) {
+
+    response = new ApiResponse("ERROR", error.message, null).response();
+  }
+  res.json(response);
+});
+
+  
 
 router.get("/operacionsimple", async (req, res) => {
   let response;
