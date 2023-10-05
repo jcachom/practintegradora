@@ -2,8 +2,12 @@ let { Router } = require("express");
 const router = Router();
 const ProductController = require("../controllers/products.controller");
 const productController = new ProductController();
-const { ApiResponse} = require("../util");
+const { ApiResponse } = require("../util");
 const { rolMdw } = require("../routers/middlewares/roles.middleware");
+const {
+  isauthorizedDelete,
+} = require("../routers/middlewares/product.middleware");
+
 const { config } = require("../config/config");
 const passport = require("passport");
 const ROL = config.ROL;
@@ -18,8 +22,6 @@ router.get("/:pid", async (req, res) => {
   }
   res.json(response);
 });
-
-
 
 //http://localhost:8080/products/7
 
@@ -46,7 +48,7 @@ router.get("/", async (req, res) => {
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
-  rolMdw(ROL.ADMIN),
+  rolMdw([ROL.ADMIN, ROL.PREMIUN]),
   async (req, res) => {
     let response;
     try {
@@ -71,7 +73,7 @@ router.post(
 router.put(
   "/:pid",
   passport.authenticate("jwt", { session: false }),
-  rolMdw(ROL.ADMIN),
+  rolMdw([ROL.ADMIN]),
   async (req, res) => {
     let response;
     try {
@@ -89,7 +91,7 @@ router.put(
 router.delete(
   "/:pid",
   passport.authenticate("jwt", { session: false }),
-  rolMdw(ROL.ADMIN),
+  isauthorizedDelete([ROL.ADMIN, ROL.PREMIUN]),
   async (req, res) => {
     let response;
     try {

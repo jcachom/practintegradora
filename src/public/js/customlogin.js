@@ -8,7 +8,7 @@ const textpassword = document.getElementById("password");
 
 btnIngresar.addEventListener("click", (evt) => {
   texterror.innerHTML = "Iniciando.";
- 
+
   const obj = {
     email: textemail.value,
     password: textpassword.value,
@@ -22,13 +22,13 @@ btnIngresar.addEventListener("click", (evt) => {
     .then((result) => result.json())
     .then((json) => {
       if (json.status == "OK") {
-        let user=json.payload;
+        let user = json.payload;
         console.log(user);
         location.href =
           "http://localhost:8080/products?email=" +
-           user.email +
+          user.email +
           "&rol=" +
-           user.role;
+          user.role;
       } else {
         texterror.innerHTML = json.msg;
       }

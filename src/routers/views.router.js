@@ -107,4 +107,14 @@ router.get("/loginrecover", async (req, res, next) => {
   res.render("loginrecover");
 });
 
+router.get("/resetemail", async (req, res, next) => {
+  res.render("resetpasswordemail");
+});
+
+router.get("/resetpwd", async (req, res, next) => {
+  let token = req.query.token ?? "";
+
+  res.render("resetpasswordexecute", { token });
+});
+
 module.exports = router;

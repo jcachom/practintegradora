@@ -1,41 +1,65 @@
  
+const cluster =require("cluster")
+const {cpus} =require ("os")
+const  qprocesadores=cpus().length ;
+
+const swaggerJsdoc =require("swagger-jsdoc");
+const swaggerUiExpress =require("swagger-ui-express");
+
 
 const { config } = require("./config/config");
-
- 
-
 const PUERTO = 8080 || config.PORT
-
+//const PUERTO =   process.argv[2] || 8080
 const ConnectionMongo = require(".//connection/connectionMongo");
- 
-
 const express = require("express");
-
 const session = require("express-session");
 // des const sessionFileStore = require("session-file-store");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
-
 const handlebars = require("express-handlebars");
-
- const initializePassportGitHub = require("./passport/github.passport");
- const initializePassportJWT = require("./passport/jwt.passport");
- const initializePassportLocal = require("./passport/local.passport");
+const initializePassportGitHub = require("./passport/github.passport");
+const initializePassportJWT = require("./passport/jwt.passport");
+const initializePassportLocal = require("./passport/local.passport");
 
 const { Server } = require("socket.io");
 let { ___dirname } = require("./util");
 const path = require("path");
-
 const {addLogger} = require("./utils/logger")
-
-
 const MONGO_ATLAS_URI =config.MONGO_ATLAS_URI
 
-const app = express();
+const swaggerOptions ={
+  definition: {
+    openapi : '3.0.1',
+    info : {
+      title:"documentación apis",
+      description: "description de documento"
+    }
+  },
+  apis:[`${___dirname}/docs/**/*.yaml`]
+}
+const specs=swaggerJsdoc(swaggerOptions)
 
- 
-app.use(addLogger)
+/*
+if ( cluster.isPrimary) {
+
+  console.log(`Proceso padre:${process.pid} con ${qprocesadores} procesos`)
+
+  for (let i = 0; i < qprocesadores; i++) {
+    console.log("Proceso primario generando proceso trabajador")
+    cluster.fork()    
+  }
+
+  cluster.on ('exit',(worker,code,signal)=>{
+    console.log(`worker ${worker.process.pid} finalizado `)
+    cluster.fork() 
+  })
+
+} else {
+ */
+  const app = express();
+
+app.use("/apidocs",swaggerUiExpress.serve,swaggerUiExpress.setup(specs))
 
 app.engine("handlebars", handlebars.engine({ defaultLayout: "index" }));
 app.set("views", path.join(__dirname, "views", "hbs"));
@@ -70,6 +94,7 @@ const notificacionRouter = require("./routers/notificacion.router");
 
 //const sessionfilestore = sessionFileStore(session);
 
+
 app.use(cookieParser("codesecretl"));
 
  initializePassportJWT();
@@ -78,22 +103,26 @@ app.use(cookieParser("codesecretl"));
  
  app.use(passport.initialize());
 
+ 
+ //console.log(`Proceso atención Worker : ${process.pid} ` )
+
 const httpServer = app.listen(PUERTO, () => {
-  console.log(`Servidor arriba:http://localhost:${PUERTO}`);
+  console.log(`Servidor arriba:http://localhost:${PUERTO} con Worker: ${process.pid}`);
 });
+ 
+ 
+
 
 const socketServer = new Server(httpServer);
-
 socketServer.on("connection", (socket) => {
   console.log("Nuevo Cliente conectado");
 });
-
 app.use((req, res, next) => {
   req.socketServer = socketServer;
   next();
 });
 
-
+ 
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/courses", coursesRouter);
@@ -119,6 +148,9 @@ app.use(
 
 app.use("/api/sessions", sessionRouter);
 app.use("/api/notificacion", notificacionRouter);
+
+
+//}
 
 
 

@@ -1,0 +1,190 @@
+paths:
+  /api/users/:
+    get:
+      summary: Listar todos los usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: listado usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/User'
+        "500":
+          description: Error
+  /api/users/{uid}:
+    get:
+      summary: Obtener usuario por uid
+      tags:
+        - Users
+      parameters:
+      - name: uid
+        in : path
+        required: true
+        description: uid usuario
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: usuario de consulta
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+        "500":
+          description: hubo un error
+    put:
+      summary: Actualizar usuario
+      tags:
+        - Users
+      parameters:
+      - name: uid
+        in : path
+        required: true
+        description: uid usuario
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/updateUser'        
+      responses:
+        "200":
+          description: Status acción
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+        "500":
+          description: hubo un error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id autogenerado.
+        first_name:
+          type: String
+          description: primer nombre
+        last_name:
+          type: String
+          description: apellido
+        email:
+          type: String
+          description: email
+        dni:
+          type: String
+          description: dni
+        birthDate:
+          type: String
+          description: cumpleaños
+        age:
+          type: integer
+          description: edad
+        gender:
+          type: String
+          description: sexo
+          enum:
+            - M
+            - F
+        password:
+          type: String
+          description: contraseña
+        role:
+          type: String
+          description: rol
+          enum:
+            - admin
+            - user
+            - premiun
+      example:
+       _id: ObjectId("64f7ff856cb0092af4a17049")
+       first_name: Jose
+       last_name: Cacho
+       email: jcachom10@gmail.com
+       dni: 4438765
+       birthDate: "10/10/1987"
+       age: 36
+       gender: M
+       password: pass
+       role: user
+    listUser:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id autogenerado.
+        first_name:
+          type: String
+          description: primer nombre
+        last_name:
+          type: String
+          description: apellido
+        email:
+          type: String
+          description: email
+        role:
+          type: String
+          description: rol
+      example:
+       _id: ObjectId("64f7ff856cb0092af4a17049")
+       first_name: Jose
+       last_name: Cacho
+       email: jcachom10@gmail.com
+       dni: 4438765
+       birthDate: "10/10/1987"
+       age: 36
+       gender: M
+       password: pass
+       role: user       
+    updateUser:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: primer nombre
+        last_name:
+          type: String
+          description: apellido
+        email:
+          type: String
+          description: email
+        dni:
+          type: String
+          description: dni
+        birthDate:
+          type: String
+          description: cumpleaños
+        age:
+          type: integer
+          description: edad
+        gender:
+          type: String
+          description: sexo
+          enum:
+            - M
+            - F
+        role:
+          type: String
+          description: rol
+          enum:
+            - admin
+            - user
+            - premiun
+      example:
+       first_name: Jose
+       last_name: Cacho
+       email: jcachom10@gmail.com
+       dni: 4438765
+       birthDate: "10/10/1987"
+       age: 36
+       gender: M
+       role: user       

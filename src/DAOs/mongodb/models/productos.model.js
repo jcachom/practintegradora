@@ -30,6 +30,7 @@ const modelSchema = new mongoose.Schema({
   status: Boolean,
   stock: Number,
   thumbnail: [String],
+  owner : String
 });
 modelSchema.plugin(mongoosePaginate);
 const productoModel = mongoose.model(modelCollection, modelSchema);

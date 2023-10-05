@@ -1,18 +1,21 @@
 let jwt = require("jsonwebtoken");
- 
+
 const passport = require("passport");
 const { config } = require("./config/config");
 const { ApiResponse } = require("../src/util");
 
 const TOKENEXPIRES = config.TOKENEXPIRES;
-const PRIVATE_KEY = config.PRIVATE_KEY_JWT
+const PRIVATE_KEY = config.PRIVATE_KEY_JWT;
 
- 
-
-const generateToken = (user) => {
-  const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: TOKENEXPIRES });
+const generateToken = (user, timeToken = TOKENEXPIRES) => {
+  const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: timeToken });
   //const token=jwt.sign({user},PRIVATE_KEY,{expiresIn:'20s'})
   return token;
+};
+
+const verifyToken = (token) => {
+  const tokenverified = jwt.verify(token, PRIVATE_KEY);
+  return tokenverified;
 };
 
 const authToken = (req, res, next) => {
@@ -73,4 +76,10 @@ const authorization_admin = (req, res, next) => {
   }
 };
 
-module.exports = { generateToken, authToken, passportCall, authorization };
+module.exports = {
+  generateToken,
+  verifyToken,
+  authToken,
+  passportCall,
+  authorization,
+};

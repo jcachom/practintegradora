@@ -57,20 +57,24 @@ const initializePassportLocal = () => {
           let user = await userController.getbyEmail(username);
           if (!user) {
             req.status = "ERROR";
-           return done(null, false);
-          
+            return done(null, false);
           }
 
           let isvalid = isValidPassword(user.password, password);
           if (!isvalid) {
             req.status = "ERROR";
+
+        
             return done(null, false);
           }
           req.status = "OK";
-         
 
-          let isSamePassword=isValidPassword(user.password, config.ADMIN.PASS);   
-        if (user.email == config.ADMIN.EMAIL && isSamePassword) user.role = "admin";        
+          let isSamePassword = isValidPassword(
+            user.password,
+            config.ADMIN.PASS
+          );
+          if (user.email == config.ADMIN.EMAIL && isSamePassword)
+            user.role = "admin";
           req.user = user;
           return done(null, user);
         } catch (error) {

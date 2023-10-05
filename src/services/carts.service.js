@@ -13,12 +13,11 @@ class cartService {
     if (!user)
       return new ApiResponse("ERROR", "No existe usuario", null).response();
 
-   
-    if (user.cartId !="")
+    if (user.cartId != "")
       return new ApiResponse(
         "OK",
         "Usuario ya cuenta con Cart.",
-        resultCartUser
+        null
       ).response();
 
     let result = await this.cartDAO.createCart(email);
@@ -71,17 +70,11 @@ class cartService {
     return result;
   }
 
-
   async generarTicket(uidCart) {
     let result = await this.cartDAO.generarTicket(uidCart);
 
- 
-
     return new ApiResponse("OK", "Compra confirmada.", result).response();
   }
-
- 
-
 }
 
 module.exports = cartService;

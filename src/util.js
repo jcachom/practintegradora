@@ -1,6 +1,6 @@
 let bcrypt = require("bcrypt");
 
-const { config } = require("./config/config");
+//const { config } = require("./config/config");
 
 class ApiResponse {
   constructor(status, msg, payload) {
@@ -17,7 +17,6 @@ class ApiResponse {
     };
   }
 }
- 
 
 let ___dirname = __dirname;
 const createHash = (password) =>
@@ -25,6 +24,4 @@ const createHash = (password) =>
 const isValidPassword = (user_password, password) =>
   bcrypt.compareSync(password, user_password);
 
-    
-module.exports = { ApiResponse, ___dirname, createHash, isValidPassword};
- 
+module.exports = { ApiResponse, ___dirname, createHash, isValidPassword };

@@ -20,11 +20,22 @@ btnIngresar.addEventListener("click", (evt) => {
     body: JSON.stringify(obj),
     headers: { "Content-type": "application/json" },
   })
-    .then((result) => result.json())
+    //.then((result) => result.json())
+    .then((result) => {
+      if (result.status == "401") {
+        let json = {
+          status: "ERROR",
+          msg: "Usuario no autorizado.",
+        };
+        return json;
+      } else {
+        return result.json();
+      }
+    })
     .then((json) => {
       if (json.status == "OK") {
-        let user=json.payload;
-        console.log( user);
+        let user = json.payload;
+
         location.href =
           "http://localhost:8080/products?email=" +
           user.email +
@@ -35,5 +46,3 @@ btnIngresar.addEventListener("click", (evt) => {
       }
     });
 });
-
- 

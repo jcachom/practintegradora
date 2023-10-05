@@ -14,6 +14,13 @@ class userController {
     return result;
   };
 
+  //getbyId
+  getbyId = async (uid) => {
+    let result = await this.userService.getbyId(uid);
+    return result;
+  };
+
+
   getbyEmail = async (email) => {
     let result = await this.userService.getbyEmail(email);
     return result;
@@ -52,6 +59,38 @@ class userController {
 
     let result = await this.userService.deleteUser(uid);
 
+    return result;
+  };
+
+  resetemailpassw = async (email) => {
+    if (email == "")
+      return new ApiResponse(
+        "ERROR",
+        "Email usuario no enviado",
+        null
+      ).response();
+
+    let result = await this.userService.getbyEmail(email);
+    if (!result)
+      return new ApiResponse(
+        "ERROR",
+        "Email usuario no encontrado.",
+        null
+      ).response();
+
+    result = await this.userService.resetemailpassw(email);
+    return result;
+  };
+
+  resetemailverify = async (token, newpwd) => {
+    if (!token) {
+      return new ApiResponse(
+        "ERROR",
+        "Usuario token no válido.",
+        null
+      ).response();
+    }
+    let result = await this.userService.resetemailverify(token, newpwd);
     return result;
   };
 }

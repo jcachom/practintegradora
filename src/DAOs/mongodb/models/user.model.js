@@ -29,6 +29,7 @@ const modelSchema = new mongoose.Schema({
   role: {
     type: String,
     require: true,
+    enum: ["user", "admin","premiun"],
   },
 });
 modelSchema.plugin(mongoosePaginate);

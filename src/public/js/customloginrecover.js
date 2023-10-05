@@ -16,8 +16,8 @@ form.addEventListener("submit", (evt) => {
 
     .then((json) => {
       if (json.status == "OK") {
-        let user=json.payload;
-        console.log( user);
+        let user = json.payload;
+        console.log(user);
         texterror.innerHTML = "contraseña modificada.";
       } else {
         texterror.innerHTML = json.msg;

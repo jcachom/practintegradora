@@ -28,10 +28,8 @@ btngenerarjwt.addEventListener("click", (evt) => {
   })
     .then((result) => result.json())
     .then((c) => {
-      //localStorage.setItem("authtoken", c.acces_token);
       localStorage.setItem("authtoken", c.payload);
       texterror.innerHTML = "token generado";
-      //location.href ="http://localhost:8080/products"
     });
 });
 

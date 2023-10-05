@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
 router.put(
   "/:cid",
   passport.authenticate("jwt", { session: false }),
-  rolMdw(ROL.USER),
+  rolMdw([ROL.USER]),
   isCartUserMdw,
   async (req, res) => {
     let response;
@@ -45,7 +45,7 @@ router.put(
 router.post(
   "/:cid/product/:pid",
   passport.authenticate("jwt", { session: false }),
-  rolMdw(ROL.USER),
+  rolMdw([ROL.USER]),
   isCartUserMdw,
   async (req, res) => {
     let response;
@@ -65,7 +65,7 @@ router.post(
 router.put(
   "/:cid/product/:pid",
   passport.authenticate("jwt", { session: false }),
-  rolMdw(ROL.USER),
+  rolMdw([ROL.USER]),
   async (req, res) => {
     let response;
     try {

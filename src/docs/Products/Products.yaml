@@ -1,0 +1,271 @@
+paths:
+  /api/products/{uid}:
+    get:
+      summary: producto por uid
+      tags:
+        - Product
+      parameters:
+      - in : path
+        name: uid
+        required: true
+        description: uid producto
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: producto
+          content:
+            application/json:
+              schema:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: hubo un error
+    put:
+      summary: Actualizar producto por uid
+      tags:
+        - Product
+      parameters:
+      - name: uid
+        in : path
+        required: true
+        description: uid producto
+        schema:
+          $type: String
+      requestBody:
+        description: producto
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createProduct'
+      responses:
+        "200":
+          description: Status acción
+          content:
+            application/json:
+              schema:
+                  $ref: '#components/schemas/objresponse'
+        "500":
+          description: hubo un error
+
+    delete:
+      summary: eliminar producto por uid
+      tags:
+        - Product
+      parameters:
+      - in : path
+        name: uid
+        required: true
+        description: uid producto
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Status acción
+          content:
+            application/json:
+              schema:
+                  $ref: '#components/schemas/objresponse'
+        "500":
+          description: hubo un error
+
+  /api/products/:
+    get:
+      summary: todos los productos
+      tags:
+        - Product
+      parameters:
+      - in : query
+        name : limit
+        description: cantidad límite de registros
+        schema:
+          type: integer
+      - in : query
+        name : page
+        description: página actual
+        schema:
+          type: integer
+      - in : query
+        name : query
+        description: campo de consulta
+        schema:
+          type: String
+          enum: ["categoria", "disponibilidad"]
+      - in : query
+        name : queryvalue
+        description: valor de campo consulta
+        schema:
+          type: String
+      - in : query
+        name : sort
+        description: ordenación listado
+        schema:
+          type: String
+          enum: ["asc", "desc"]
+      responses:
+        "200":
+          description: listado productos
+          content:
+            application/json:
+              schema:
+                  $ref: '#components/schemas/listProduct'
+        "500":
+          description: hubo un error
+
+    post:
+      summary: crear producto
+      tags:
+        - Product
+      requestBody:
+        description: producto
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createProduct'
+      responses:
+        "200":
+          description: status acción
+          content:
+            application/json:
+              schema:
+                  $ref: '#components/schemas/objresponse'
+        "500":
+          description: hubo un error
+
+components:
+  schemas:
+    objresponse:
+      type: object
+      properties:
+        status:
+          type: String
+          description: estado respuesta
+        msg:
+          type: String
+          description: mensaje respuesta
+        payload:
+          AnyValue: {}
+          nullable: true
+      example:
+        status: "OK"
+        msg: "msg response"
+        payload: {}
+    listProduct:
+      type: object
+      properties:
+        status:
+          type: String
+          description: estado respuesta
+        msg:
+          type: String
+          description: mensaje respuesta
+        payload:
+          type: object
+          nullable: true
+          properties:
+            totalPages: 
+              type: integer
+              description: total páginas
+            prevPage:
+              type: integer
+              description: página previa
+            nextPage:
+              type: integer
+              description: siguiente pagina
+            hasPrevPage:
+              type: boolean
+              description: Flag tiene pagina previa
+            hasNextPage:
+              type: boolean
+              description: Flag tiene pagina siguiente
+            products:
+              type: array
+              items:
+                $ref: '#components/schemas/Product'
+                
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id autogenerado
+        code:
+          type: String
+          description: status respuesta
+        categoria:
+          type: String
+          description: mensaje respuesta
+        title:
+          type: String
+          description: titulo
+        sdescription:
+          type: String
+          description: detalle producto
+        price:
+          type: number
+          description: precio 
+        status:
+          type: boolean
+          description: estado
+        stock:
+          type: integer
+          format: int64
+          description: stock
+        thumbnail:
+          type: array
+          items:
+            type: string               
+      example:
+        _id: ObjectId("64f7ff856cb0092af4a17049")
+        code: "abc100"
+        categoria: "camisas"
+        title: "camisas largo"
+        sdescription: "camisas importados con tela"
+        price: 100.20
+        status: true
+        stock: 20
+        thumbnail: ["url1","url2"]
+    
+    createProduct:
+      type: object
+      properties:
+        code:
+          type: String
+          description: status respuesta
+        categoria:
+          type: String
+          description: mensaje respuesta
+        title:
+          type: String
+          description: titulo
+        sdescription:
+          type: String
+          description: detalle producto
+        price:
+          type: number
+          description: precio 
+        status:
+          type: boolean
+          description: estado
+        stock:
+          type: integer
+          format: int64
+          description: stock
+        owner:
+          type: String
+          description: creador producto
+        thumbnail:
+          type: array
+          items:
+            type: string               
+      example:
+        code: "abc100"
+        categoria: "camisas"
+        title: "camisas largo"
+        sdescription: "camisas importados con tela"
+        price: 100.20
+        status: true
+        stock: 20
+        owner: "jcachom10@gmail.com"
+        thumbnail: ["url1","url2"]

@@ -1,0 +1,227 @@
+paths:
+  /api/carts/:
+    post:
+      summary: crear a cart
+      tags:
+        - Cart
+      requestBody:
+        description: cart creado
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: String
+                  description: email usuario creador
+              example:
+                email: "jcachom10@gmail.com"
+      responses:
+        "200":
+          description:  status acción.
+          content:
+            application/json:
+              schema:
+                  $ref: '#components/schemas/objresponse'
+        "500":
+          description: hubo un error
+
+    get:
+      summary: Listar todos los carts
+      tags:
+        - Cart
+      responses:
+        "200":
+          description:  listado carts
+          content:
+            application/json:
+              schema:              
+                type: array
+                items:                  
+                  $ref: '#components/schemas/cart'
+        "500":
+          description: hubo un error
+
+  /api/carts/{cid}:
+    get:
+      summary: cart por uid
+      tags:
+        - Product
+      parameters:
+      - in : path
+        name: cid
+        required: true
+        description: uid Cart
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: producto
+          content:
+            application/json:
+              schema:
+                  $ref: '#components/schemas/cart'
+        "500":
+          description: hubo un error
+    delete:
+      summary: cart por uid
+      tags:
+        - Product
+      parameters:
+      - in : path
+        name: cid
+        required: true
+        description: uid Cart
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: producto
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/objresponse'
+        "500":
+          description: hubo un error
+
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: adicionar producto al Cart
+      tags:
+        - Cart
+      parameters:
+      - in : path
+        name: cid
+        required: true
+        description: uid Cart
+        schema:
+          $type: String
+      - in : path
+        name: pid
+        required: true
+        description: uid producto
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: respuesta acción
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/objresponse'
+
+        "500":
+          description: hubo un error
+    delete:
+      summary: eliminar producto del Cart
+      tags:
+        - Cart
+      parameters:
+      - in : path
+        name: cid
+        required: true
+        description: uid Cart
+        schema:
+          $type: String
+      - in : path
+        name: pid
+        required: true
+        description: uid producto
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: respuesta acción
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/objresponse'
+        "500":
+          description: hubo un error
+ 
+components:
+  schemas:
+    objresponse:
+      type: object
+      properties:
+        status:
+          type: String
+          description: estado respuesta
+        msg:
+          type: String
+          description: mensaje respuesta
+        payload:
+          AnyValue: {}
+          nullable: true
+      example:
+        status: "OK"
+        msg: "msg response"
+        payload: {}
+
+    cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: uid Cart
+        email:
+          type: String
+          description: email usuario 
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: ObjectId
+                description: uid Cart
+              quantity:
+                type: ObjectId
+                description: uid Cart
+              producto:
+                type: array
+                items:
+                  $ref: '#components/schemas/productCart'
+    productCart:
+      type: object
+      properties:
+        code:
+          type: String
+          description: status respuesta
+        categoria:
+          type: String
+          description: mensaje respuesta
+        title:
+          type: String
+          description: titulo
+        sdescription:
+          type: String
+          description: detalle producto
+        price:
+          type: number
+          description: precio 
+        status:
+          type: boolean
+          description: estado
+        stock:
+          type: integer
+          format: int64
+          description: stock
+        owner:
+          type: String
+          description: creador producto
+        thumbnail:
+          type: array
+          items:
+            type: string               
+      example:
+        code: "abc100"
+        categoria: "camisas"
+        title: "camisas largo"
+        sdescription: "camisas importados con tela"
+        price: 100.20
+        status: true
+        stock: 20
+        owner: "jcachom10@gmail.com"
+        thumbnail: ["url1","url2"]

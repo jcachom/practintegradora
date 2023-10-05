@@ -1,10 +1,13 @@
 let productosModel = require("./models/productos.model");
- 
 
 class productDAO {
   constructor() {}
 
   async addProduct(product) {
+    if (!product.hasOwnProperty("owner")) {
+      product.owner = "admin";
+    }
+
     let new_product = {
       ...product,
     };

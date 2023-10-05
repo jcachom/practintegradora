@@ -3,7 +3,7 @@ const router = Router();
 
 const { sendEmailGmail } = require("../utils/email");
 
-const { ApiResponse} = require("../util");
+const { ApiResponse } = require("../util");
 const ClientTwilio = require("twilio");
 const { config } = require("../config/config");
 

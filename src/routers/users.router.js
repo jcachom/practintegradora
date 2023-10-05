@@ -16,31 +16,18 @@ router.get("/", async (req, res) => {
   res.send(response);
 });
 
-
- 
-
-/*
-router.post("/", async (req, res) => {
+router.get("/:uid", async (req, res) => {
   let response;
   try {
-   const { first_name, last_name, email, birthDate, gender, role } = req.body;
-
-    let newUser = {
-      first_name,
-      last_name,
-      email,
-      birthDate,
-      gender,
-      role,
-    }; 
-    response = await userController.saveUser(newUser);
+    let { uid } = req.params;
+    response = await userController.getbyId(uid);
   } catch (error) {
     response = new ApiResponse("ERROR", error.message, null).response();
   }
   res.send(response);
 });
 
-*/
+//getbyId
 
 router.put("/:uid", async (req, res) => {
   let response;
@@ -59,6 +46,28 @@ router.delete("/:uid", async (req, res) => {
   try {
     let { uid } = req.params;
     response = await userController.deleteUser(uid);
+  } catch (error) {
+    response = new ApiResponse("ERROR", error.message, null).response();
+  }
+  res.send(response);
+});
+
+router.post("/resetemailpassw", async (req, res) => {
+  let response;
+  try {
+    let { email } = req.body;
+    response = await userController.resetemailpassw(email);
+  } catch (error) {
+    response = new ApiResponse("ERROR", error.message, null).response();
+  }
+  res.send(response);
+});
+
+router.post("/resetemailverify", async (req, res) => {
+  let response;
+  try {
+    const { token, newpwd } = req.body;
+    response = await userController.resetemailverify(token, newpwd);
   } catch (error) {
     response = new ApiResponse("ERROR", error.message, null).response();
   }

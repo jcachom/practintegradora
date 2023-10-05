@@ -5,16 +5,23 @@ class usersDAO {
   constructor() {}
 
   getAll = async () => {
-    let result = await usersModel.find({},{password:0}).lean();
- 
+    let result = await usersModel.find({}, { password: 0 }).lean();
+
     return result;
   };
 
+
+  getbyId = async (uid) => {
+    let result = await usersModel.find({ _id: uid },{ password: 0 }).lean();
+    return result;
+  };
+
+
   getbyEmail = async (email) => {
     let result = await usersModel.findOne({ email }).lean();
-     
+
     if (result) {
-      result.cartId = "";  
+      result.cartId = "";
       let findCart = await cartModel.findOne({ email: email });
       if (findCart) {
         result.cartId = findCart._id;
@@ -30,9 +37,6 @@ class usersDAO {
   };
 
   updateUser = async (uid, user) => {
-
-
-
     let result = await usersModel.updateOne({ _id: uid }, user);
     return result;
   };

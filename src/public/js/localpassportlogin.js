@@ -16,13 +16,13 @@ form.addEventListener("submit", (evt) => {
 
     .then((json) => {
       if (json.status == "OK") {
-        let user =json.payload;
-        console.log( user);
+        let user = json.payload;
+        console.log(user);
         location.href =
           "http://localhost:8080/products?email=" +
-           user.email +
+          user.email +
           "&rol=" +
-           user.role;
+          user.role;
       } else {
         texterror.innerHTML = json.message;
       }

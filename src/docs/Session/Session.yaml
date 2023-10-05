@@ -1,0 +1,57 @@
+paths:
+  /api/sessions/login:
+    post:
+      summary: inicio session
+      tags:
+        - Session
+      requestBody:
+        description: inicio session
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/sesionlogin'
+
+      responses:
+        "200":
+          description: Status acción
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/objresponse'
+        "500":
+          description: hubo un error
+
+components:
+  schemas:
+    objresponse:
+      type: object
+      properties:
+        status:
+          type: String
+          description: estado respuesta
+        msg:
+          type: String
+          description: mensaje respuesta
+        payload:
+          AnyValue: {}
+          nullable: true
+      example:
+        status: "OK"
+        msg: "msg response"
+        payload: {}
+
+    sesionlogin:
+      type: object
+      properties:
+        email:
+          type: String
+          format: email
+          description: email usuario
+        password:
+          type: String
+          format: password
+          description: paswword
+      example:
+        email: "jcachom10@gmail.com"
+        password: "123"

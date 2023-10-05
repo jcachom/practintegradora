@@ -16,6 +16,7 @@ let config = {
   ROL: {
     ADMIN: process.env.ROLADMIN,
     USER: process.env.ROLUSER,
+    PREMIUN: process.env.ROLPREMIUN,
   },
   TOKENEXPIRES: process.env.TOKENEXPIRES,
   GMAIL: {
@@ -27,9 +28,9 @@ let config = {
     AUTHTOKEN: process.env.TWILIOAUTHTOKEN,
     PHONENUMBERORIGIN: process.env.TWILIOPHONENUMBERORIGIN,
   },
-  ENVIRONMENT : {
-    CURRENT: process.env.ENVIRONMENT
-  }
+  ENVIRONMENT: {
+    CURRENT: process.env.ENVIRONMENT,
+  },
 };
 
 module.exports = { config };
