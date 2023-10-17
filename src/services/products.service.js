@@ -1,9 +1,15 @@
 const ProductDAO = require("../DAOs/mongodb/productMongo.dao");
+const UserDAO = require("../DAOs/mongodb/usersMongo.dao");
 const { ApiResponse } = require("../util");
+const { sendEmailGmail } = require("../utils/email");
+const { config } = require("../config/config");
+const ROL = config.ROL;
+
 
 class productService {
   constructor() {
     this.productDAO = new ProductDAO();
+    this.userDAO = new UserDAO();
   }
 
   async addProduct(product) {
@@ -67,12 +73,40 @@ class productService {
   }
 
   async deleteProduct(uidProduct) {
-    let result = await this.productDAO.deleteProduct(uidProduct);
+    let user;
+    let producto = await this.productDAO.getProductById(uidProduct);
+
+    if (!producto)
+    return new ApiResponse("ERROR", "No encontrado", null).response();
+
+
+ 
+      if (  producto[0].hasOwnProperty("owner")) 
+      user =await this.userDAO.getbyEmail(producto[0].owner)
+
+      let result = await this.productDAO.deleteProduct(uidProduct);  
+ 
+     
 
     if (result.deletedCount > 0)
-      return new ApiResponse("OK", "", null).response();
+    {
+ 
+      if (user) {
 
-    return new ApiResponse("ERROR", "No encontrado", null).response();
+        if ( user.role==ROL.PREMIUN){
+          let body = `Estimado usuario , el producto con uid ${uidProduct} ha sido eliminado.`;
+          result = await sendEmailGmail(user.email, "Eliminación producto", body);
+          return new ApiResponse("OK", "Producto eliminado y notificado.", null).response();
+        } 
+        
+      
+
+      }
+
+    }
+  
+
+ 
   }
 }
 

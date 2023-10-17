@@ -41,6 +41,16 @@ class usersService {
     return new ApiResponse("ERROR", "No encontrado", null).response();
   };
 
+  updatelastcnxUser = async (uid) => {
+    let result = await this.usersDAO.updatelastcnxUser(uid);
+
+    if (result.matchedCount > 0)
+    return new ApiResponse("OK", "", null).response();
+
+  return new ApiResponse("ERROR", "No encontrado", null).response();
+  
+  }
+
   deleteUser = async (uid) => {
     let result = await this.usersDAO.deleteUser(uid);
 
@@ -49,6 +59,53 @@ class usersService {
 
     return new ApiResponse("ERROR", "No encontrado", null).response();
   };
+
+
+  deleteUserInactividad = async () => {
+    let result = await this.usersDAO.getAll();
+
+    let listUser = result.map(function(item){
+      let mintime=48; //horas
+
+      let hasproperty= item.hasOwnProperty("last_connection") ;
+      let horasTranscurridas=0;
+      let hoy = new Date();
+      if (hasproperty){
+        let diferencia =Math.abs( item.last_connection.getTime() - hoy.getTime());
+        horasTranscurridas = diferencia / 1000 / 60 / 60;
+      }
+          
+      let user ={
+          _id : item._id.toString() ,
+          email: item.email,
+          fechaactual: hoy.getTime(),
+          last_connection:item.last_connection,
+          horasTranscurridas : horasTranscurridas,
+          flagdelete: (hasproperty && horasTranscurridas >mintime)?true:false
+        }
+        return user;
+    })
+
+    let  filterUserInactividad =listUser.filter(x=>x.flagdelete);
+    if (filterUserInactividad.length==0)
+    return new ApiResponse("ERROR", "Listado usuarios no encontrado.", null).response();
+
+    let envios=0;       
+    for (const item of  filterUserInactividad) {
+      let uidUser =item._id;      
+      let resultUser = await this.usersDAO.deleteUser(uidUser);
+      if (resultUser.deletedCount > 0)
+       {
+        let body = `Su acceso ha sido inhabilitado dado que no ha ingresado en los últimos días.`;
+        result = await sendEmailGmail(item.email, "Inhabilitación cuenta", body);
+        envios=envios + 1;
+       } 
+    }
+
+       return new ApiResponse("OK", envios + " usuarios notificados por inhabilitación de cuenta.", null).response();
+
+  };
+
 
   resetemailpassw = async (email) => {
     let expirationDate = new Date();

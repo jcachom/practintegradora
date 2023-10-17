@@ -14,6 +14,23 @@ class userController {
     return result;
   };
 
+  getAllMain = async () => {
+    let result = await this.userService.getAll();
+    let listUser = result.map(function(item){
+    let user ={
+        _id : item._id.toString() ,
+        first_name: item.first_name ,
+        last_name: item.last_name,
+        email: item.email,
+        role: item.role
+      }
+      return user;
+  })
+ 
+    return listUser;
+  };
+
+  
   //getbyId
   getbyId = async (uid) => {
     let result = await this.userService.getbyId(uid);
@@ -34,6 +51,19 @@ class userController {
 
     return result;
   };
+
+  updatelastcnxUser = async (uid) => {
+    CustomError.validateCreateError({
+      code: EErrors.INVALID_TYPES_UUID,
+      field: "id user",
+      value: uid,
+    });
+
+    let result = await this.userService.updatelastcnxUser(uid);
+
+    return result;
+
+  }
 
   updateUser = async (uid, user) => {
     CustomError.validateCreateError({
@@ -61,6 +91,14 @@ class userController {
 
     return result;
   };
+
+
+  deleteUserInactividad = async () => { 
+    let result = await this.userService.deleteUserInactividad();
+    return result;
+  };
+
+  
 
   resetemailpassw = async (email) => {
     if (email == "")

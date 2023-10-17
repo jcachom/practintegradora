@@ -8,7 +8,7 @@ const swaggerUiExpress =require("swagger-ui-express");
 
 
 const { config } = require("./config/config");
-const PUERTO = 8080 || config.PORT
+const PUERTO = process.env.PORT || config.PORT || 8080  
 //const PUERTO =   process.argv[2] || 8080
 const ConnectionMongo = require(".//connection/connectionMongo");
 const express = require("express");

@@ -67,6 +67,10 @@ const initializePassportLocal = () => {
         
             return done(null, false);
           }
+
+          
+          let updateUser = await userController.updatelastcnxUser(user._id.toString());
+
           req.status = "OK";
 
           let isSamePassword = isValidPassword(

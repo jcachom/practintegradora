@@ -1,12 +1,13 @@
 let usersModel = require("./models/user.model");
 let cartModel = require("./models/cart.model");
 
+
 class usersDAO {
   constructor() {}
 
   getAll = async () => {
     let result = await usersModel.find({}, { password: 0 }).lean();
-
+    
     return result;
   };
 
@@ -41,6 +42,18 @@ class usersDAO {
     return result;
   };
 
+
+  updatelastcnxUser = async (uid) => {
+    let result = await usersModel.updateOne({ _id: uid }, {
+      $set: {
+        last_connection: Date.now()
+      }
+      
+    });
+    return result;
+  };
+
+  
   deleteUser = async (uid) => {
     let result = await usersModel.deleteOne({ _id: uid });
     return result;

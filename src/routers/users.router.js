@@ -16,6 +16,20 @@ router.get("/", async (req, res) => {
   res.send(response);
 });
 
+router.get("/main", async (req, res) => {
+  let response;
+  let list ;
+  try {
+    response = await userController.getAllMain();
+    
+  } catch (error) {
+    response = new ApiResponse("ERROR", error.message, null).response();
+  }
+  res.send(response);
+});
+
+
+
 router.get("/:uid", async (req, res) => {
   let response;
   try {
@@ -51,6 +65,19 @@ router.delete("/:uid", async (req, res) => {
   }
   res.send(response);
 });
+
+
+router.delete("/all/inactividad", async (req, res) => {
+  let response;
+  try {
+    response = await userController.deleteUserInactividad();
+  } catch (error) {
+    response = new ApiResponse("ERROR", error.message, null).response();
+  }
+  res.send(response);
+});
+
+ 
 
 router.post("/resetemailpassw", async (req, res) => {
   let response;

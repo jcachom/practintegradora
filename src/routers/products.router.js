@@ -8,6 +8,9 @@ const {
   isauthorizedDelete,
 } = require("../routers/middlewares/product.middleware");
 
+
+
+
 const { config } = require("../config/config");
 const passport = require("passport");
 const ROL = config.ROL;
@@ -96,7 +99,9 @@ router.delete(
     let response;
     try {
       let uidProd = req.params["pid"];
+ 
       response = await productController.deleteProduct(uidProd);
+ 
     } catch (error) {
       response = new ApiResponse("ERROR", error.message, null).response();
     }

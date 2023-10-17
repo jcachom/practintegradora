@@ -6,6 +6,9 @@ const { config } = require("../config/config");
 const UserDTO = require("../DAOs/DTOs/userDTO");
 const COOKIESESSION = config.COOKIESESSION;
 const router = Router();
+const UserController=require("../controllers/users.controller")
+
+const userController=new UserController();
 
 router.post(
   "/register",
@@ -45,9 +48,10 @@ router.post(
         let userresp = {
           email: req.user.email,
           role: req.user.role,
+          _id : req.user._id.toString()
         };
 
-        console.log(userresp);
+       
         let response = new ApiResponse(
           "OK",
           "Autenticación correcta.",
@@ -106,11 +110,14 @@ router.get("/failloginrecover", (req, res) => {
   res.send(new ApiResponse("ERROR", "Falló login recover.", null).response());
 });
 
-router.post("/logout", (req, res) => {
+router.post("/logout",passportCall("jwt"), async (req, res) => {
   try {
-    //.clearCookie("codercookie")
+   
+
+    let updateUser = await userController.updatelastcnxUser(req.user.user._id.toString());
+
     res
-      .clearCookie(COOKIESESSION)
+      .clearCookie(COOKIESESSION)      
       .send(new ApiResponse("OK", "", null).response());
   } catch (error) {
     res.send(new ApiResponse("ERROR", error, null).response());

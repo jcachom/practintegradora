@@ -31,6 +31,7 @@ const modelSchema = new mongoose.Schema({
     require: true,
     enum: ["user", "admin","premiun"],
   },
+  last_connection : Date
 });
 modelSchema.plugin(mongoosePaginate);
 const userModel = mongoose.model(modelCollection, modelSchema);
