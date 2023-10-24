@@ -72,13 +72,19 @@ class userController {
       value: uid,
     });
 
+
+/*
     if (!user.first_name || !user.last_name || !user.email || !user.role)
       return new ApiResponse("ERROR", "Incompleted valores", null).response();
+      */
 
     let result = await this.userService.updateUser(uid, user);
 
     return result;
   };
+
+  
+
 
   deleteUser = async (uid) => {
     CustomError.validateCreateError({

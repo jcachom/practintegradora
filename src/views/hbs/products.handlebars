@@ -5,17 +5,22 @@
 <div style="display:flex; flex-direction:row-reverse;align-items: center;">
 
   <div>
-    <form method="post">
-
-      <button
+     <form method="post">
+     <div style="display:inline-block">
+ 
+     
+      <label id="cart" class="circle" style="font-weight:bold" >Cart:0</label>
+       <button
         type="button"
         id="logout"
         name="logout"
-        style="border-radius:5px;background-color:green;color:white"
-      >
-
+        style="border-radius:5px;background-color:green;color:white">
         Logout
       </button>
+
+    
+ </div>
+     
 
     </form>
 
@@ -42,6 +47,7 @@
 
 <h5> LISTADO DE PRODUCTOS </h5>
 <div id="divlist">
+<!--
 
   {{#if hasPrevPage}}
     <a href="/products?page={{prevPage}}&&email={{email}}"><button
@@ -74,7 +80,7 @@
       <div style="display:inline">
         Cantidad :
         <input id="txtcantpedido" type="number" />
-        <button style="background-color:orange">Add carrito</button>
+        <button style="background-color:orange" id="product"{{this._id}}>Add carrito</button>
 
       </div>
     </div>
@@ -82,5 +88,6 @@
 
   {{/each}}
 
+-->
 </div>
 <script src="/js/products.js"></script>

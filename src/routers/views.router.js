@@ -2,6 +2,12 @@ let { Router } = require("express");
 const CartController = require("../controllers/carts.controller");
 const ProductController = require("../controllers/products.controller");
 const ChatController = require("../controllers/messages.controller");
+const { rolMdw } = require("../routers/middlewares/roles.middleware");
+ 
+const { config } = require("../config/config");
+const passport = require("passport");
+const ROL = config.ROL;
+
 
 const cartController = new CartController();
 const productController = new ProductController();
@@ -115,6 +121,16 @@ router.get("/resetpwd", async (req, res, next) => {
   let token = req.query.token ?? "";
 
   res.render("resetpasswordexecute", { token });
+});
+
+/*
+router.get("/users", passport.authenticate("jwt", { session: false }),
+rolMdw([ROL.ADMIN]), async (req, res, next) => {
+  res.render("users", {});
+});
+*/
+router.get("/users",   async (req, res, next) => {
+  res.render("users", {});
 });
 
 module.exports = router;
