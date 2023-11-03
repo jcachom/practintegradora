@@ -24,14 +24,15 @@ class cartsDAO {
       let response = await this.addProductCart(
         uidCart,
         item._id,
-        item.quantity
+        item.quantity,
+        "+"
       );
       responses.push(response);
     }
     return responses;
   }
 
-  async addProductCart(uidCart, uidProduct, quantity) {
+  async addProductCart(uidCart, uidProduct, quantity,accion) {
     let oCarrito = await cartModel.findOne({ _id: { $eq: uidCart } });
     if (oCarrito == null)
       return new ApiResponse("ERROR", "Cart no encontrado", null).response();
@@ -48,7 +49,15 @@ class cartsDAO {
     );
 
     if (ofindProducto) {
-      ofindProducto.quantity = ofindProducto.quantity + new Number(quantity);
+
+      if (accion=="+") {
+        ofindProducto.quantity = ofindProducto.quantity + new Number(quantity);
+      }
+      if (accion=="=") {
+        ofindProducto.quantity = new Number(quantity);
+      }
+
+     
       let result = await oCarrito.save();
     } else {
       let newproducto = {
@@ -192,11 +201,20 @@ class cartsDAO {
       if (index >= 0) oCarrito.products.splice(index, 1);
     });
     let resultCart = await oCarrito.save();
+    
+    let result={
+      ticket: resultTicket,
+      noincluido: listProductNoDisp,
+    }
+    return new ApiResponse("OK", "", result).response();
 
+    /*
     return {
       ticket: resultTicket,
       noincluido: listProductNoDisp,
-    };
+    }
+    */
+    ;
   }
 }
 

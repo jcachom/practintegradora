@@ -48,7 +48,8 @@ router.post(
         let userresp = {
           email: req.user.email,
           role: req.user.role,
-          _id : req.user._id.toString()
+          _id : req.user._id.toString(),
+          cartId:req.user.cartId ?? ''
         };
 
        

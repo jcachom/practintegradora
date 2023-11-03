@@ -93,7 +93,7 @@ document.body.addEventListener("click", (event) => {
     let rol = document.getElementById(`cborol_${idUser}`);
 
     if (!rol.value) {
-      texterror.innerHTML="Debe seleccionar un rol."
+      texterror.innerHTML = "Debe seleccionar un rol.";
       return;
     }
     obj = {

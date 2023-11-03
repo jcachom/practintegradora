@@ -30,11 +30,12 @@ class cartService {
     return result;
   }
 
-  async addProductCart(uidCart, uidProduct, quantity) {
+  async addProductCart(uidCart, uidProduct, quantity,accion) {
     let result = await this.cartDAO.addProductCart(
       uidCart,
       uidProduct,
-      quantity
+      quantity,
+      accion
     );
 
     return result;

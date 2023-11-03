@@ -28,7 +28,7 @@ router.get("/:pid", async (req, res) => {
 
 //http://localhost:8080/products/7
 
-router.get("/", async (req, res) => {
+router.get("/",passport.authenticate("jwt", { session: false }), async (req, res) => {
   let response;
   try {
     let paramQuery = {

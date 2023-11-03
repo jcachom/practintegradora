@@ -71,10 +71,16 @@ router.put(
     try {
       let cid = req.params["cid"];
       let pid = req.params["pid"];
-      let { quantity } = req.body;
+      let { quantity, accion } = req.body;
+      accion = accion ?? "+";
       quantity = new Number(quantity);
 
-      response = await cartController.addProductCart(cid, pid, quantity);
+      response = await cartController.addProductCart(
+        cid,
+        pid,
+        quantity,
+        accion
+      );
     } catch (error) {
       response = new ApiResponse("ERROR", error.message, null).response();
     }

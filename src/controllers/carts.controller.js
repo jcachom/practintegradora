@@ -35,7 +35,7 @@ class cartController {
     return result;
   }
 
-  async addProductCart(uidCart, uidProduct, quantity) {
+  async addProductCart(uidCart, uidProduct, quantity,accion ) {
     CustomError.validateCreateError({
       code: EErrors.INVALID_TYPES_UUID,
       field: "id cart",
@@ -55,7 +55,8 @@ class cartController {
     let result = await this.cartService.addProductCart(
       uidCart,
       uidProduct,
-      quantity
+      quantity,
+      accion
     );
     return result;
   }

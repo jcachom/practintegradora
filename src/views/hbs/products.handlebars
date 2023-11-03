@@ -5,89 +5,84 @@
 <div style="display:flex; flex-direction:row-reverse;align-items: center;">
 
   <div>
-     <form method="post">
-     <div style="display:inline-block">
- 
-     
-      <label id="cart" class="circle" style="font-weight:bold" >Cart:0</label>
-       <button
-        type="button"
-        id="logout"
-        name="logout"
-        style="border-radius:5px;background-color:green;color:white">
-        Logout
-      </button>
 
-    
- </div>
-     
+    <form method="post">
+
+      <div style="display:inline-block">
+
+        <a href="" id="btncatalogo">Ver catalogo</a>
+
+        <a href="" id="vercart">Ver carrito</a>
+        <label id="cantcart" class="circle" style="font-weight:bold">0</label>
+
+        <button
+          type="button"
+          id="logout"
+          name="logout"
+          style="border-radius:5px;background-color:green;color:white"
+        >
+          Logout
+        </button>
+        <span style="font-weight:bold" id="email"> </span>
+        <input type="hidden" id="hdcart" name="hdcart" value="" />
+      </div>
 
     </form>
 
   </div>
 
   <div>
-    {{#if rol}}
-      Rol:
-      {{rol}}
-    {{/if}}
-  </div>
-  <div>
     &nbsp;
   </div>
 
-  <div>
-    {{#if email}}
-      Bienvenido
-      <span style="font-weight:bold"> {{email}} </span>
-    {{/if}}
-  </div>
-
 </div>
 
-<h5> LISTADO DE PRODUCTOS </h5>
-<div id="divlist">
-<!--
+<div id="divpanel_list">
 
-  {{#if hasPrevPage}}
-    <a href="/products?page={{prevPage}}&&email={{email}}"><button
-      >Anterior</button></a>
-  {{/if}}
+  <h5> LISTADO DE PRODUCTOS </h5>
+  <p id="texterror" style="color:orange;font: size 20px ;font-weight:bold"></p>
+  <form method="post">
+    <div id="divlist">
 
-  {{#if hasNextPage}}
-    <a href="/products?page={{nextPage}}&&email={{email}}"><button
-      >Siguiente</button></a>
-  {{/if}}
-  <br />
-  <br />
-
-  {{#each productos}}
-
-    <div class="tarjeta">
-      <span style="font-weight:bold"> code : {{this.code}}</span>
-      categoría :
-      {{this.categoria}}
-      <br />
-      descripción :
-      {{this.description}}
-      <br />
-      precio :
-      {{this.price}}
-      stock :
-      {{this.stock}}
-      <br />
-      <br />
-      <div style="display:inline">
-        Cantidad :
-        <input id="txtcantpedido" type="number" />
-        <button style="background-color:orange" id="product"{{this._id}}>Add carrito</button>
-
-      </div>
     </div>
-    <br />
 
-  {{/each}}
+  </form>
 
--->
 </div>
+
+<div id="divpanel_cart">
+  <p
+    id="texterrorcart"
+    style="color:orange;font: size 20px ;font-weight:bold"
+  ></p>
+  <h5>PRODUCTOS EN EL CARRITO</h5>
+  <table
+    class="table table-hover table-sm table-grids"
+    id="tb_listHistorialRng"
+  >
+    <thead>
+      <tr class="TblbgSuccess">
+        <th>Código</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>SubTotal</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody id="tb_cartbody"></tbody>
+  </table>
+
+  <button
+    type="button"
+    id="btnconfirmar"
+    style="border-radius:5px;background-color:orange;color:white"
+  >
+    Confirmar compra
+  </button>
+
+</div>
+
 <script src="/js/products.js"></script>

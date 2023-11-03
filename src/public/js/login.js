@@ -34,15 +34,20 @@ btnIngresar.addEventListener("click", (evt) => {
     })
     .then((json) => {
       if (json.status == "OK") {
-        let user = json.payload;
-
-        location.href =
-          "http://localhost:8080/products?email=" +
-          user.email +
-          "&rol=" +
-          user.role;
+       // let user = json.payload;
+        location.href ="products"
       } else {
         texterror.innerHTML = json.msg;
+      
       }
     });
 });
+
+//  //cartId
+ //  "http://localhost:8080/products?email=" +
+        /* "products?email=" +
+          user.email +
+          "&rol=" +
+          user.role +
+          "&cartid=" +
+          user.cartId;*/

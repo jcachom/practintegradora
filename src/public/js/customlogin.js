@@ -24,14 +24,19 @@ btnIngresar.addEventListener("click", (evt) => {
       if (json.status == "OK") {
         let user = json.payload;
         console.log(user);
-        location.href =
-          "http://localhost:8080/products?email=" +
-          user.email +
-          "&rol=" +
-          user.role;
+        location.href = "products?email=" + user.email + "&rol=" + user.role;
       } else {
         texterror.innerHTML = json.msg;
       }
     });
 });
 
+/*
+location.href =
+          "http://localhost:8080/products?email=" +
+          user.email +
+          "&rol=" +
+          user.role;
+
+
+*/

@@ -38,7 +38,8 @@ btnAceptar.addEventListener("click", (evt) => {
 
         texterror.innerHTML=json.msg
         if (json.payload !=null && json.payload.hasOwnProperty("expiration") ){         
-          location.href = "http://localhost:8080/resetemail";
+          //location.href = "http://localhost:8080/resetemail";
+          location.href = "resetemail";
         } 
  
       }
