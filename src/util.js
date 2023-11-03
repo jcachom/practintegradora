@@ -19,9 +19,8 @@ class ApiResponse {
 }
 
 let ___dirname = __dirname;
-const createHash = (password) =>
-  bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-const isValidPassword = (user_password, password) =>
-  bcrypt.compareSync(password, user_password);
+const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+
+const isValidPassword = (user_password, password) => bcrypt.compareSync(password, user_password);
 
 module.exports = { ApiResponse, ___dirname, createHash, isValidPassword };
